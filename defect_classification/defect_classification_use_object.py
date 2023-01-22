@@ -67,7 +67,20 @@ for test_path in test_path_list:
 defect_classifier = defect_classifier()
 
 # define the training path
-defect_classifier.training_path = r"C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\yoann_code_new\Savedir_example\outputs\outputs\2023-01-21-12-51-51_advanced example - multi_level_L_datasetID_0.csv"
+defect_classifier.training_path = r"G:\study\thesis_data_storage\journal\defect_classification\basic_model\training_data\2022-09-15-09-00-01_advanced example - multi_level_L_datasetID_0.csv"
 
-# train hte model
+# train the model
 defect_classifier.train_Gridsearch()
+
+# email reminding
+defect_classifier.email_reminder()
+
+# %% apply transfer learning with bert pre-trained model
+# %% Using gridsearch to train&test and exprot the model
+defect_classifier = defect_classifier()
+
+# define the training path
+defect_classifier.training_path = r"G:\study\thesis_data_storage\journal\defect_classification\basic_model\training_data\2022-09-15-09-00-01_advanced example - multi_level_L_datasetID_0.csv"
+
+# train the model
+defect_classifier.transfer_learning_VGG16()
