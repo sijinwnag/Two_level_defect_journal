@@ -107,61 +107,6 @@ class defect_classifier():
         dump(scaler, 'scaler_for_defect_classification.joblib')
         dump(self.model, 'model_defect_classification.joblib')
 
-
-    # def transfer_learning_VGG16(self):
-    #     '''
-    #     Input: training_path: the path of the training data
-    #     Output: exrported scaler and model
-    #     '''
-    #     # prepare X and y:
-    #     self.training_data = pd.read_csv(self.training_path)
-
-    #     # create a list to select X columns: if the column string contains cm, then identify it as X.
-    #     select_X_list = []
-    #     for string in self.training_data.columns.tolist():
-    #         if string[0].isdigit():
-    #             select_X_list.append(string)
-    #     X = self.training_data[select_X_list]
-
-    #     # take the log 10 of the training data (lifetime data)
-    #     X = np.log10(X)
-
-    #     # apply the scaler
-    #     scaler = self.scaler
-    #     X = scaler.fit_transform(X)
-
-    #     # define y for ML output
-    #     y = self.training_data['Label']
-
-    #     # train and test splitting
-    #     # X_train, y_train, X_test, y_test = train_test_split(X, y, test_size=0.1)
-
-    #     # reshape lifetime into image-like dimension (samples, rows, cols, channels)
-    #     # we do (defects, temperature, exccess carriers, channels=3) (144000, 600) (144000, 2, 100, 3)
-    #     print(np.shape(X))
-    #     X_train_imageshape = np.reshape(X, (np.shape(X)[0], 10, 20, 3))
-
-    #     # load the pre-trained VGG-16 model
-    #     vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(10, 20, 3))
-    #     # remove the last fully connected layer
-    #     vgg16.layers.pop()
-    #     # add new layers
-    #     x = Flatten(vgg16.output) # flattern the output from vgg16
-    #     x = Dense(units=64, activation='relu')(x) # add a 64 size fully connected layer
-    #     x = Dropout(rate=0.5)(x) # add a dropout feature in the end
-    #     output = Dense(units=1, activation='sigmoid')(x)
-
-    #     # create the new model
-    #     model = Model(inputs=vgg16.input, output=output)
-
-    #     # compile the model
-    #     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-    #     # training
-    #     print('training in progress')
-    #     model.fit(X_train_imageshape, y, epochs=10, batchsize=32)
-        
-
    
     def train_Gridsearch(self):
         '''
@@ -179,7 +124,7 @@ class defect_classifier():
 
         '''
         # create the grid search object
-        grid_search = GridSearchCV(self.model, param_grid = self.param_grid, cv=5)
+        grid_search = GridSearchCV(self.model, param_grid = self.param_grid, cv=5, verbose=3)
 
         # apply the data pre processing
         # load the training data
@@ -360,3 +305,57 @@ class defect_classifier():
     #     # export the scaler and model
     #     dump(scaler, 'scaler_for_defect_classification.joblib')
     #     dump(self.model, 'model_defect_classification.joblib')
+
+
+# def transfer_learning_VGG16(self):
+    #     '''
+    #     Input: training_path: the path of the training data
+    #     Output: exrported scaler and model
+    #     '''
+    #     # prepare X and y:
+    #     self.training_data = pd.read_csv(self.training_path)
+
+    #     # create a list to select X columns: if the column string contains cm, then identify it as X.
+    #     select_X_list = []
+    #     for string in self.training_data.columns.tolist():
+    #         if string[0].isdigit():
+    #             select_X_list.append(string)
+    #     X = self.training_data[select_X_list]
+
+    #     # take the log 10 of the training data (lifetime data)
+    #     X = np.log10(X)
+
+    #     # apply the scaler
+    #     scaler = self.scaler
+    #     X = scaler.fit_transform(X)
+
+    #     # define y for ML output
+    #     y = self.training_data['Label']
+
+    #     # train and test splitting
+    #     # X_train, y_train, X_test, y_test = train_test_split(X, y, test_size=0.1)
+
+    #     # reshape lifetime into image-like dimension (samples, rows, cols, channels)
+    #     # we do (defects, temperature, exccess carriers, channels=3) (144000, 600) (144000, 2, 100, 3)
+    #     print(np.shape(X))
+    #     X_train_imageshape = np.reshape(X, (np.shape(X)[0], 10, 20, 3))
+
+    #     # load the pre-trained VGG-16 model
+    #     vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(10, 20, 3))
+    #     # remove the last fully connected layer
+    #     vgg16.layers.pop()
+    #     # add new layers
+    #     x = Flatten(vgg16.output) # flattern the output from vgg16
+    #     x = Dense(units=64, activation='relu')(x) # add a 64 size fully connected layer
+    #     x = Dropout(rate=0.5)(x) # add a dropout feature in the end
+    #     output = Dense(units=1, activation='sigmoid')(x)
+
+    #     # create the new model
+    #     model = Model(inputs=vgg16.input, output=output)
+
+    #     # compile the model
+    #     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+    #     # training
+    #     print('training in progress')
+    #     model.fit(X_train_imageshape, y, epochs=10, batchsize=32)
