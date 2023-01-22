@@ -1,5 +1,5 @@
 # %% imports
-from two_level_generator_object import *
+from two_level_simulator_object import *
 
 # define the object
 # simulator = two_level_lifetime_generator()
