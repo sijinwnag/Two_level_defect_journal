@@ -53,6 +53,7 @@ class defect_classifier():
         self.scaler = MinMaxScaler()
         
         # define the parameter grid
+        self.param_grid = {'hidden_layer_size':[(100, 100), (100, 200), (500, 500), (100, 100, 100)]}
         
     
     def train_export_model(self):
@@ -108,12 +109,50 @@ class defect_classifier():
         '''
     
 
-    def train_export_Gridsearch(self):
+    def train_Gridsearch(self):
         '''
         Input: training path
         Output : exported scaler and model
         '''
-        # define the parameter grid
+        # create the grid search object
+        grid_search = GridSearchCV(self.model, param_grid = self.param_grid, cv=5)
+
+        # apply the data pre processing
+        # load the training data
+        self.training_data = pd.read_csv(self.training_path)
+
+        # define the ML input
+        # create a list to select X columns: if the column string contains cm, then identify it as X.
+        select_X_list = []
+        for string in self.training_data.columns.tolist():
+            if string[0].isdigit():
+                select_X_list.append(string)
+        X = self.training_data[select_X_list]
+
+        # take the log 10 of the training data (lifetime data)
+        X = np.log10(X)
+
+        # define y for ML output
+        y = self.training_data['Label']
+
+        # train test split
+        # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+
+        # apply the scaler
+        scaler = self.scaler
+        scaler.fit(X)
+        X_scaled = scaler.transform(X)
+    
+        # train the grid search object
+        grid_search.fit(X_scaled, y)
+
+        # print hte best parameters and the best score
+        print('The best parameters: ' + str(grid_search.best_params_))
+        print('Best score: ', str(grid_search.best_score_))
+
+        # store the best parameters into the object
+        self.best_params = grid_search.best_params_
+
 
 
     def test_model(self):

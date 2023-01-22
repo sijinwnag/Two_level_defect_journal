@@ -1,7 +1,7 @@
 # %% imports
 from defect_level_classification_object import *
 
-# %% training and export a model
+# %% training&test and export a model
 defect_classifier = defect_classifier()
 
 # define the training path
@@ -62,3 +62,12 @@ for test_path in test_path_list:
     defect_classifier.test_data_path = test_path
     # test the model
     defect_classifier.test_model()
+
+# %% Using gridsearch to train&test and exprot the model
+defect_classifier = defect_classifier()
+
+# define the training path
+defect_classifier.training_path = r"C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\yoann_code_new\Savedir_example\outputs\outputs\2023-01-21-12-51-51_advanced example - multi_level_L_datasetID_0.csv"
+
+# train hte model
+defect_classifier.train_Gridsearch()
