@@ -60,6 +60,7 @@ class defect_classifier():
 
         # define the dimension of image-like data if using transfer learning
         self.image_dimension = (16000, 6, 100)
+
         
     
     def train_export_model(self):
@@ -119,8 +120,12 @@ class defect_classifier():
         Best score: 0.8377
 
         trial 2:
-        input: (500, 500), (500, 500, 500), (1000, 1000), (300, 300)
+        input: (512, 512), (512, 512, 512), (1024, 1024), (500, 500), (100, 100)
         best parameter
+
+
+
+
 
         '''
         # create the grid search object
