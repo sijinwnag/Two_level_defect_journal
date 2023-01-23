@@ -122,11 +122,6 @@ class defect_classifier():
         trial 2:
         input: (512, 512), (512, 512, 512), (1024, 1024), (500, 500), (100, 100)
         best parameter
-
-
-
-
-
         '''
         # create the grid search object
         grid_search = GridSearchCV(self.model, param_grid = self.param_grid, cv=5, verbose=3)
