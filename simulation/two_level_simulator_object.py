@@ -39,8 +39,8 @@ class two_level_lifetime_generator():
 
         This function initialize all the parameters for simulation
         '''
-        self.SAVEDIR = r"C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\Two_level_defect_journal\simulation\simulated_data" # you can change this to your own path
-        # SAVEDIR = r"C:\Users\sijin wang\Documents\GitHub\yoann_code_new\Savedir_example"
+        # self.SAVEDIR = r"C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\Two_level_defect_journal\simulation\simulated_data" # you can change this to your own path
+        self.SAVEDIR = r"C:\Users\sijin wang\Documents\GitHub\Two_level_defect_journal\simulation\simulated_data"
         # self.FILEPATH = "advanced_example\\data\\sample_original_L.csv"
         self.TEMPERATURE = [150, 200, 250, 300, 350, 400] # below 400K
         # DOPING = [5e13, 1e14, 5e14, 1e15, 5e15, 1e16] # *len(TEMPERATURE) # make sure T and doping have same length

@@ -43,5 +43,16 @@ simulator.PARAM['Et_max_2'] = 0
 # simulate the data
 simulator.mixture_simulate()
 
+# %% Simulate two-level-lifetime only
+simulator = two_level_lifetime_generator()
+simulator.PARAMETERS['n_defects']=8000
+# update Et range
+simulator.PARAM['Et_min_1'] = 0
+simulator.PARAM['Et_max_1'] = 0.55
+simulator.PARAM['Et_min_2'] = -0.55
+simulator.PARAM['Et_max_2'] = 0
+# simulate the data
+simulator.two_level_simulate()
+
 # %%
 simulator.email_reminder()
