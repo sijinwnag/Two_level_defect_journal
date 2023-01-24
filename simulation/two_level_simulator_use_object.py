@@ -35,12 +35,15 @@ for central_Et2 in np.arange(-0.5, 0.6, 0.1):
 # %% simulate the data updating the datasize
 simulator = two_level_lifetime_generator()
 simulator.PARAMETERS['n_defects']=8000
+<<<<<<< Updated upstream
 # update Et range
 simulator.PARAM['Et_min_1'] = 0
 simulator.PARAM['Et_max_1'] = 0.55
 simulator.PARAM['Et_min_2'] = -0.55
 simulator.PARAM['Et_max_2'] = 0
 # simulate the data
+=======
+>>>>>>> Stashed changes
 simulator.mixture_simulate()
 
 # %%
