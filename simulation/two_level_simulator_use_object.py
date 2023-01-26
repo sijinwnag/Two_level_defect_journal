@@ -35,23 +35,24 @@ for central_Et2 in np.arange(-0.5, 0.6, 0.1):
 # %% simulate the data updating the datasize
 simulator = two_level_lifetime_generator()
 simulator.PARAMETERS['n_defects']=8000
-<<<<<<< Updated upstream
+# update the save directory
+simulator.SAVEDIR = r'G:\study\thesis_data_storage\unordered\set00\p\set00_8k'
 # update Et range
 simulator.PARAM['Et_min_1'] = 0
 simulator.PARAM['Et_max_1'] = 0.55
 simulator.PARAM['Et_min_2'] = -0.55
 simulator.PARAM['Et_max_2'] = 0
 # simulate the data
-=======
->>>>>>> Stashed changes
 simulator.mixture_simulate()
 
 # %% Simulate two-level-lifetime only
 simulator = two_level_lifetime_generator()
 simulator.PARAMETERS['n_defects']=8000
+# update the save directory
+simulator.SAVEDIR = r'G:\study\thesis_data_storage\unordered\set00\p\set00_8k'
 # update Et range
-simulator.PARAM['Et_min_1'] = 0
-simulator.PARAM['Et_max_1'] = 0.55
+simulator.PARAM['Et_min_1'] = -0.55
+simulator.PARAM['Et_max_1'] = 0
 simulator.PARAM['Et_min_2'] = -0.55
 simulator.PARAM['Et_max_2'] = 0
 # simulate the data

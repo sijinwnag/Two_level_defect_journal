@@ -40,7 +40,7 @@ class two_level_lifetime_generator():
         This function initialize all the parameters for simulation
         '''
         # self.SAVEDIR = r"C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\Two_level_defect_journal\simulation\simulated_data" # you can change this to your own path
-        self.SAVEDIR = r"C:\Users\sijin wang\Documents\GitHub\Two_level_defect_journal\simulation\simulated_data"
+        # self.SAVEDIR = r"C:\Users\sijin wang\Documents\GitHub\Two_level_defect_journal\simulation\simulated_data"
         # self.FILEPATH = "advanced_example\\data\\sample_original_L.csv"
         self.TEMPERATURE = [150, 200, 250, 300, 350, 400] # below 400K
         # DOPING = [5e13, 1e14, 5e14, 1e15, 5e15, 1e16] # *len(TEMPERATURE) # make sure T and doping have same length
@@ -92,14 +92,15 @@ class two_level_lifetime_generator():
                 'noise':'',             #   Enable noiseparam
                 'noiseparam':0,         #   Adds noise proportional to the log of Delta n
         }
-        #  Define experiment: every time remember to run this line to refresh the code.
-        self.exp = Experiment(SaveDir=self.SAVEDIR, Parameters=self.PARAMETERS)
+        
 
 
     def mixture_simulate(self, emailme = False):
         '''
         This function simulate the lifetime for a mixture of one-level and two-level defects.
         '''
+        #  Define experiment: every time remember to run this line to refresh the code.
+        self.exp = Experiment(SaveDir=self.SAVEDIR, Parameters=self.PARAMETERS)
 
         # perform the simulation
         db_multi=DPML.generateDB_multi(self.PARAMETERS['n_defects'], self.TEMPERATURE, self.DOPING, self.PARAMETERS['dn_range'], self.PARAM) # two one-level defect data
@@ -166,7 +167,8 @@ class two_level_lifetime_generator():
         '''
         This function simulate the lifetime for two-level defects.
         '''
-
+        #  Define experiment: every time remember to run this line to refresh the code.
+        self.exp = Experiment(SaveDir=self.SAVEDIR, Parameters=self.PARAMETERS)
         # perform the simulation
         # Simualate datasets: for Single two-level, run this section
         # sanity check whether exp is defined.
