@@ -37,26 +37,37 @@ class multi_classifier():
     '''
     This object is related to the classification task that split dataset into 4 different sets
     '''
+
     def __init__(self):
         # define the ML model
-        self.model = MLPClassifier(hidden_layer_sizes=(500, 500), verbose=1)
+        self.model = MLPClassifier(hidden_layer_sizes=(512, 512, 512), verbose=1)
 
         # define the scaler
         self.scaler = MinMaxScaler()
 
         # define the training path
-        self.set11_path = r'G:\study\thesis_data_storage\unordered\set11\p\set11_8k.csv'
-        self.set10_path = r'G:\study\thesis_data_storage\unordered\set10\p\8k\2022-11-24-11-05-49_advanced example - multi_level_L_datasetID_0.csv'
-        self.set01_path = r'G:\study\thesis_data_storage\unordered\set01\p\set01_800k_p.csv'
-        self.set00_path = r'G:\study\thesis_data_storage\unordered\set00\p\set00_8k\outputs\2023-01-25-11-32-01_advanced example - multi_level_L_datasetID_0.csv'
+        self.set11_path = r'G:\study\thesis_data_storage\unordered\set11\p\outputs\set11_80k.csv'
+        self.set10_path = r'G:\study\thesis_data_storage\unordered\set10\p\80k\2022_10_25\2022-10-25-13-57-56_advanced example - multi_level_L_datasetID_0.csv'
+        self.set01_path = r'G:\study\thesis_data_storage\unordered\set01\p\outputs\outputs\set01_80k.csv'
+        self.set00_path = r'G:\study\thesis_data_storage\unordered\set00\p\set00_80k\outputs\set00_80k.csv'
 
-        # define the comined path (if exists)
-        self.combined_path = r'G:\study\thesis_data_storage\unordered\classification\set_classification\8k\set_classification.csv'
+        # define the comined path (if exists) (the folders to save the document)
+        self.combined_path = r'G:\study\thesis_data_storage\unordered\classification\set_classification\80k'
+        # define the combined path (the actual file)
+        self.combined_path_file = r'G:\study\thesis_data_storage\unordered\classification\set_classification\80k\set_classification.csv'
+
+        # define the gridsearch space
+        self.param_grid = {'hidden_layer_sizes':[(512, 512, 512, 512), (512, 512, 512)]}
 
     
-    def pre_processor(self, csv_data):
+    def pre_processor(self, csv_data, target='multiclass'):
         '''
         Input: a csv file from lifetime simulator
+        target: a string input that has three options:
+            multiclass: four sets
+            bandgap_1: whether Et1 large or smaller than midband
+            bandgap_2: whether Et2 large or smaller than midband
+
         Output: X lifetime array, y target value
         '''
         # extract the lifetime
@@ -71,16 +82,23 @@ class multi_classifier():
         # take the log 10 of the training data (lifetime data)
         X = np.log10(X)
 
-        # define y for ML output
-        # set 11: 1
-        # set 10: 2
-        # set 01: 3
-        # set 00: 4
-        csv_data.set11 = csv_data.apply(lambda row: 1 if row['bandgap_1'] == 1 and row['bandgap_2'] == 1 else 0, axis=1)
-        csv_data.set10 = csv_data.apply(lambda row: 2 if row['bandgap_1'] == 1 and row['bandgap_2'] == 0 else 0, axis=1)
-        csv_data.set01 = csv_data.apply(lambda row: 3 if row['bandgap_1'] == 0 and row['bandgap_2'] == 1 else 0, axis=1)
-        csv_data.set00 = csv_data.apply(lambda row: 4 if row['bandgap_1'] == 0 and row['bandgap_2'] == 0 else 0, axis=1)
-        y = csv_data.set11 + csv_data.set10 + csv_data.set01 + csv_data.set00
+        if target=='multiclass':
+            # define y for ML output
+            # set 11: 1
+            # set 10: 2
+            # set 01: 3
+            # set 00: 4
+            csv_data.set11 = csv_data.apply(lambda row: 1 if row['bandgap_1'] == 1 and row['bandgap_2'] == 1 else 0, axis=1)
+            csv_data.set10 = csv_data.apply(lambda row: 2 if row['bandgap_1'] == 1 and row['bandgap_2'] == 0 else 0, axis=1)
+            csv_data.set01 = csv_data.apply(lambda row: 3 if row['bandgap_1'] == 0 and row['bandgap_2'] == 1 else 0, axis=1)
+            csv_data.set00 = csv_data.apply(lambda row: 4 if row['bandgap_1'] == 0 and row['bandgap_2'] == 0 else 0, axis=1)
+            y = csv_data.set11 + csv_data.set10 + csv_data.set01 + csv_data.set00
+
+        elif target == 'bandgap_1':
+            y = csv_data['bandgap_1']
+
+        elif target == 'bandgap_2':
+            y = csv_data['bandgap_2']
 
         return X, y
 
@@ -131,7 +149,6 @@ class multi_classifier():
         if export_model == True:
             path = r'G:\study\thesis_data_storage\journal\set_classification'
             joblib.dump(model, filename = path + '\set_classification.joblib')
-
             joblib.dump(scaler, filename = path + '\set_classficiation_scaler.joblib')
 
         # end time
@@ -150,6 +167,36 @@ class multi_classifier():
         set01_data = pd.read_csv(self.set01_path)
         set00_data = pd.read_csv(self.set00_path)
 
+        # sanity check
+        # check set 11
+        print('Checking set 11')
+        print('The number of defects is ' + str(set11_data.shape[0]))
+        print('The maximum bandgap 1 value for set 11 is ' + str(set11_data['bandgap_1'].max()))
+        print('Whether the column is unique: ' + str(set11_data['bandgap_1'].nunique()))
+        print('The maximum bandgap 2 value for set 11 is ' + str(set11_data['bandgap_2'].max()))
+        print('Whether the column is unique: ' + str(set11_data['bandgap_2'].nunique()))
+        # check set 10
+        print('Checking set 10')
+        print('The number of defects is ' + str(set10_data.shape[0]))
+        print('The maximum bandgap 1 value for set 10 is ' + str(set10_data['bandgap_1'].max()))
+        print('Whether the column is unique: ' + str(set10_data['bandgap_1'].nunique()))
+        print('The maximum bandgap 2 value for set 10 is ' + str(set10_data['bandgap_2'].max()))
+        print('Whether the column is unique: ' + str(set10_data['bandgap_2'].nunique()))
+        # check set 01
+        print('Checking set 01')
+        print('The number of defects is ' + str(set01_data.shape[0]))
+        print('The maximum bandgap 1 value for set 01 is ' + str(set01_data['bandgap_1'].max()))
+        print('Whether the column is unique: ' + str(set01_data['bandgap_1'].nunique()))
+        print('The maximum bandgap 2 value for set 01 is ' + str(set01_data['bandgap_2'].max()))
+        print('Whether the column is unique: ' + str(set01_data['bandgap_2'].nunique()))
+        # check set 00
+        print('Checking set 00')
+        print('The number of defects is ' + str(set00_data.shape[0]))
+        print('The maximum bandgap 1 value for set 00 is ' + str(set00_data['bandgap_1'].max()))
+        print('Whether the column is unique: ' + str(set00_data['bandgap_1'].nunique()))
+        print('The maximum bandgap 2 value for set 00 is ' + str(set00_data['bandgap_2'].max()))
+        print('Whether the column is unique: ' + str(set00_data['bandgap_2'].nunique()))
+
         # combine data
         combined_data = pd.concat([set11_data, set10_data, set01_data, set00_data])
 
@@ -161,7 +208,7 @@ class multi_classifier():
 
         # export the combined data
         if export_csv == True:
-            path = r'G:\study\thesis_data_storage\unordered\classification\set_classification\8k'
+            path = self.combined_path
             combined_data.to_csv(path + '\set_classification.csv')
 
 
@@ -169,7 +216,7 @@ class multi_classifier():
         '''
         This function load the pd dataframe from self.combined path
         '''
-        self.combined_data = pd.read_csv(self.combined_path)
+        self.combined_data = pd.read_csv(self.combined_path_file)
 
 
     def email_reminder(self):
@@ -201,3 +248,46 @@ class multi_classifier():
 
         server.quit()
 
+
+    def train_Gridsearch(self):
+        '''
+        Input: training path
+        Output : best parameter and the best score
+
+        '''
+
+        # create the grid search object
+        grid_search = GridSearchCV(self.model, param_grid = self.param_grid, cv=5, verbose=3)
+
+        # start the timer
+        start_time = time.time()
+
+        # load the training data
+        training_data = self.combined_data
+
+        # extract x and y
+        X, y = self.pre_processor(training_data)
+
+        # train test split
+        # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+
+        # apply the scaler
+        scaler = self.scaler
+        scaler.fit(X)
+        X_scaled = scaler.transform(X)
+    
+        # train the grid search object
+        print('training gridsearch')
+        grid_search.fit(X_scaled, y)
+
+        # print hte best parameters and the best score
+        print('The best parameters: ' + str(grid_search.best_params_))
+        print('Best score: ', str(grid_search.best_score_))
+
+        # store the best parameters into the object
+        self.best_params = grid_search.best_params_
+
+        # end time
+        end_time = time.time()
+        dt = end_time - start_time
+        print('takes ' + str(dt) + ' seconds')

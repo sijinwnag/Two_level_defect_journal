@@ -60,7 +60,7 @@ plt.xlabel(r'Average $E_{\rm t2}$ (eV)', fontsize=axis_labelsize)
 plt.ylabel('F1-score', fontsize=axis_labelsize)
 plt.xticks(fontsize=axis_numbersize)
 plt.yticks([0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9], fontsize=axis_numbersize)
-plt.annotate('(c)', xy=(0.05, 0.93), xycoords='axes fraction', fontsize=text_size)
+plt.annotate('(b)', xy=(0.05, 0.93), xycoords='axes fraction', fontsize=text_size)
 # plt.title(r'$E_{\rm t1}$' + ' (eV) ', fontsize=title_size, fontweight='normal')
 plt.show()
 
