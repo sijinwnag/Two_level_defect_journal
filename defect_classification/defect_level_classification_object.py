@@ -27,10 +27,10 @@ from email.message import EmailMessage
 import os
 import sys
 from joblib import dump, load
-from transformers import AutoModel, AutoTokenizer
-from keras.layers import Dense, Dropout, Flatten
-from keras.models import Model
-from keras.applications import VGG16
+# from transformers import AutoModel, AutoTokenizer
+# from keras.layers import Dense, Dropout, Flatten
+# from keras.models import Model
+# from keras.applications import VGG16
 
 # %% define the object
 

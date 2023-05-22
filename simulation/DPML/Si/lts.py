@@ -32,16 +32,16 @@ class LTS():
         self.cell = cell
         self.defect = defect
         self.dnrange = dnrange
-        self.n1 = float(Decimal(self.cell.ni)*np.exp(Decimal(self.defect.Et/(self.cell.kb*self.cell.T))))
-        self.p1 = float(Decimal(self.cell.ni)*np.exp(Decimal(-self.defect.Et/(self.cell.kb*self.cell.T))))
-        self.taun0 = float(1/(Decimal(self.defect.Sn) * Decimal(self.cell.Vn)*Decimal(self.defect.Nt)))
-        self.taup0 = float(1/(Decimal(self.defect.Sp) * Decimal(self.cell.Vp)*Decimal(self.defect.Nt)))
-        self.tauSRH = [float((Decimal(self.taun0)*(Decimal(self.cell.p0)+Decimal(self.p1)+Decimal(dn))+Decimal(self.taup0)*(Decimal(self.cell.n0)+Decimal(self.n1)+Decimal(dn)))/(Decimal(self.cell.n0)+Decimal(self.cell.p0)+Decimal(dn))) for dn in self.dnrange]
-        # self.n1 = self.cell.ni*np.exp(self.defect.Et/(self.cell.kb*self.cell.T))
-        # self.p1 = self.cell.ni*np.exp(-self.defect.Et/(self.cell.kb*self.cell.T))
-        # self.taun0 = 1/(self.defect.Sn * self.cell.Vn*self.defect.Nt)
-        # self.taup0 = 1/(self.defect.Sp * self.cell.Vp*self.defect.Nt)
-        # self.tauSRH = [(self.taun0*(self.cell.p0+self.p1+dn)+self.taup0*(self.cell.n0+self.n1+dn))/(self.cell.n0+self.cell.p0+dn) for dn in self.dnrange]
+        # self.n1 = float(Decimal(self.cell.ni)*np.exp(Decimal(self.defect.Et/(self.cell.kb*self.cell.T))))
+        # self.p1 = float(Decimal(self.cell.ni)*np.exp(Decimal(-self.defect.Et/(self.cell.kb*self.cell.T))))
+        # self.taun0 = float(1/(Decimal(self.defect.Sn) * Decimal(self.cell.Vn)*Decimal(self.defect.Nt)))
+        # self.taup0 = float(1/(Decimal(self.defect.Sp) * Decimal(self.cell.Vp)*Decimal(self.defect.Nt)))
+        # self.tauSRH = [float((Decimal(self.taun0)*(Decimal(self.cell.p0)+Decimal(self.p1)+Decimal(dn))+Decimal(self.taup0)*(Decimal(self.cell.n0)+Decimal(self.n1)+Decimal(dn)))/(Decimal(self.cell.n0)+Decimal(self.cell.p0)+Decimal(dn))) for dn in self.dnrange]
+        self.n1 = self.cell.ni*np.exp(self.defect.Et/(self.cell.kb*self.cell.T))
+        self.p1 = self.cell.ni*np.exp(-self.defect.Et/(self.cell.kb*self.cell.T))
+        self.taun0 = 1/(self.defect.Sn * self.cell.Vn*self.defect.Nt)
+        self.taup0 = 1/(self.defect.Sp * self.cell.Vp*self.defect.Nt)
+        self.tauSRH = [(self.taun0*(self.cell.p0+self.p1+dn)+self.taup0*(self.cell.n0+self.n1+dn))/(self.cell.n0+self.cell.p0+dn) for dn in self.dnrange]
 
         #   Add noise
         self.noisemodel=noise

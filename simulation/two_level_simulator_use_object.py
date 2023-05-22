@@ -20,28 +20,28 @@ from two_level_simulator_object import *
 #     simulator.mixture_simulate()
 
 # swtip Et2 from -0.5 to 0.5 eV
-for central_Et2 in np.arange(-0.5, 0.6, 0.1):
-    print('up to ' + str(central_Et2))
-    # define the object
-    simulator = two_level_lifetime_generator()
-    # define the simulation range
+# for central_Et2 in np.arange(-0.5, 0.6, 0.1):
+#     print('up to ' + str(central_Et2))
+#     # define the object
+#     simulator = two_level_lifetime_generator()
+#     # define the simulation range
 
-    simulator.PARAM['Et_min_2'] = central_Et2 - 0.05
-    simulator.PARAM['Et_max_2'] = central_Et2 + 0.05
-    # define the file name
-    simulator.NAME = 'multi_level_L' + 'Et1' + str(central_Et2)
-    simulator.mixture_simulate()
+#     simulator.PARAM['Et_min_2'] = central_Et2 - 0.05
+#     simulator.PARAM['Et_max_2'] = central_Et2 + 0.05
+#     # define the file name
+#     simulator.NAME = 'multi_level_L' + 'Et1' + str(central_Et2)
+#     simulator.mixture_simulate()
 
 # %% simulate the defect classification dataset
 simulator = two_level_lifetime_generator()
-simulator.PARAMETERS['n_defects']=8000
+simulator.PARAMETERS['n_defects']=800
 # update the save directory
-simulator.SAVEDIR = r'G:\study\thesis_data_storage\unordered\set00\p\set00_8k'
+simulator.SAVEDIR = r'C:\Users\sijin wang\Desktop'
 # update Et range
-simulator.PARAM['Et_min_1'] = 0
+simulator.PARAM['Et_min_1'] = -0.55
 simulator.PARAM['Et_max_1'] = 0.55
 simulator.PARAM['Et_min_2'] = -0.55
-simulator.PARAM['Et_max_2'] = 0
+simulator.PARAM['Et_max_2'] = 0.55
 # simulate the data
 simulator.mixture_simulate()
 
