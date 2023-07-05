@@ -9,7 +9,6 @@ defect_classifier.training_path = r"C:\Users\z5183876\OneDrive - UNSW\Documents\
 
 # train hte model
 defect_classifier.train_export_model()
-
 # %% testing the trained model
 
 # define the object

@@ -125,6 +125,22 @@ plt.annotate('(c)', xy=chart_number_position, xycoords='axes fraction', fontsize
 plt.show()
 plt.savefig('Figure_1.jpg')
 
+# %%
+plt.figure()
+plt.plot(Et2_one_lifetime.iloc[:, 0], Et2_one_lifetime.iloc[:, 1], label='Two independent one level defect', color='blue', alpha=0.5)
+plt.plot(Et2_two_lifetime.iloc[:, 0], Et2_two_lifetime.iloc[:, 1], label='Two level defect', linestyle='dashed', color='red', alpha=0.5)
+print(np.max(Et2_one_lifetime.iloc[:, 1]-Et2_two_lifetime.iloc[:, 1]))
+plt.legend(fontsize=legend_size, loc='lower left')
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel(r'Excess carrer concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+plt.ylabel('Lifetime (s)', fontsize=ylabel_size)
+plt.xticks(fontsize=xtick_size)
+plt.yticks([1e-5, 1e-4, 1e-3, 10**(-2.5)], fontsize=ytick_size)
+# plt.annotate('(c)', xy=chart_number_position, xycoords='axes fraction', fontsize=chart_number_size)
+# plt.title(r'$E_{\rm t1}=0.5 \rm eV$; $E_{\rm t2}=0.5 \rm eV$', fontsize = title_size)
+plt.show()
+
 # %% Plot Et1 vs F1 score for defect classification
 # define the x and y
 x = np.arange(-0.5, 0.6, 0.1)
@@ -669,3 +685,29 @@ for task in [Et1list, Et2list, Sn1list, Sn2list, Sp1list, Sp2list, k1list, k2lis
     # plt.show()
 
     counter = counter + 1
+
+# %%
+# define the path
+path1 = r"C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et2_not_sensitive\Et1_055_Et2_055.csv"
+path2 = r"C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et2_not_sensitive\Et1_055_Et2_050.csv"
+path3 = r"C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et2_not_sensitive\Et1_055_Et2_045.csv"
+# read the data
+Et2_055_data = pd.read_csv(path1)
+Et2_050_data = pd.read_csv(path2)
+Et2_045_data = pd.read_csv(path3)
+# plot the data
+plt.figure()
+plt.plot(Et2_055_data.iloc[:, 0], Et2_055_data.iloc[:, 1], label='$E_{t2}$=0.55 eV', color='blue', alpha=0.5)
+plt.plot(Et2_050_data.iloc[:, 0], Et2_050_data.iloc[:, 1], label='$E_{t2}$=0.50 eV', linestyle='dashed', color='red', alpha=0.5)
+plt.plot(Et2_045_data.iloc[:, 0], Et2_045_data.iloc[:, 1], label='$E_{t2}$=0.45 eV', linestyle='dashed', color='green', alpha=0.5)
+# print(np.max(Et2_one_lifetime.iloc[:, 1]-Et2_two_lifetime.iloc[:, 1]))
+plt.legend(fontsize=legend_size, loc='lower left')
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel(r'Excess carrer concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+plt.ylabel('Lifetime (s)', fontsize=ylabel_size)
+plt.xticks(fontsize=xtick_size)
+plt.yticks([1e-5, 1e-4, 1e-3, 10**(-2.5)], fontsize=ytick_size)
+# plt.annotate('(c)', xy=chart_number_position, xycoords='axes fraction', fontsize=chart_number_size)
+# plt.title(r'$E_{\rm t1}=0.5 \rm eV$; $E_{\rm t2}=0.5 \rm eV$', fontsize = title_size)
+plt.show()

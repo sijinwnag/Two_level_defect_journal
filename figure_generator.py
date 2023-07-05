@@ -152,7 +152,7 @@ extent = (Et2list[0], Et2list[-1], Et1list[0], Et1list[-1])
 optind = np.argmin(residuallist)
 
 plt.figure(num='Resudual', facecolor='white', figsize=figuresize)
-im1 = plt.imshow(residuallistr,extent =extent, aspect='equal', origin = 'lower',norm=colors.LogNorm())
+im1 = plt.imshow(residuallistr,extent =extent, aspect='equal', origin = 'lower',norm=colours.LogNorm())
 cb = plt.colorbar(im1, label='Fitting residual')
 cb.set_label(label='Fitting residual',fontsize=axis_labelsize, font='Cambria')
 cb.ax.tick_params(labelsize=axis_numbersize)
