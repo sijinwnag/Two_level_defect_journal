@@ -60,7 +60,7 @@ class multi_classifier():
         self.param_grid = {'hidden_layer_sizes':[(512, 512, 512, 512), (512, 512, 512)]}
 
     
-    def pre_processor(self, csv_data, target='multiclass'):
+    def pre_processor(self, csv_data, target='multiclass', return_param=False):
         '''
         Input: a csv file from lifetime simulator
         target: a string input that has three options:
@@ -100,7 +100,12 @@ class multi_classifier():
         elif target == 'bandgap_2':
             y = csv_data['bandgap_2']
 
-        return X, y
+        if return_param:
+            # find the defect parameters
+            param = csv_data[['Et_eV_1', 'Et_eV_2', 'Sn_cm2_1', 'Sp_cm2_1', 'Sn_cm2_2', 'Sp_cm2_2']]
+            return X, y, param
+        else:
+            return X, y
 
 
     def train_test_model(self, export_model = True):
@@ -291,3 +296,6 @@ class multi_classifier():
         end_time = time.time()
         dt = end_time - start_time
         print('takes ' + str(dt) + ' seconds')
+
+
+    

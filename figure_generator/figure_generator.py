@@ -127,7 +127,7 @@ plt.savefig('Figure_1.jpg')
 
 # %%
 plt.figure()
-plt.plot(Et2_one_lifetime.iloc[:, 0], Et2_one_lifetime.iloc[:, 1], label='Two independent one level defect', color='blue', alpha=0.5)
+plt.plot(Et2_one_lifetime.iloc[:, 0], Et2_one_lifetime.iloc[:, 1], label='One level defect with $E_{t1}$ only', color='blue', alpha=0.5)
 plt.plot(Et2_two_lifetime.iloc[:, 0], Et2_two_lifetime.iloc[:, 1], label='Two level defect', linestyle='dashed', color='red', alpha=0.5)
 print(np.max(Et2_one_lifetime.iloc[:, 1]-Et2_two_lifetime.iloc[:, 1]))
 plt.legend(fontsize=legend_size, loc='lower left')
@@ -710,4 +710,65 @@ plt.xticks(fontsize=xtick_size)
 plt.yticks([1e-5, 1e-4, 1e-3, 10**(-2.5)], fontsize=ytick_size)
 # plt.annotate('(c)', xy=chart_number_position, xycoords='axes fraction', fontsize=chart_number_size)
 # plt.title(r'$E_{\rm t1}=0.5 \rm eV$; $E_{\rm t2}=0.5 \rm eV$', fontsize = title_size)
+plt.show()
+
+# %% The Figure 3 in Journal
+# define the path
+path1 = r"D:\study\thesis_data_storage\journal\defect_classification\lifetime_curve_plotting\two_levels.csv"
+path2 = r"D:\study\thesis_data_storage\journal\defect_classification\lifetime_curve_plotting\two_one_levels.csv"
+# read the data
+one_level = pd.read_csv(path2)
+two_level = pd.read_csv(path1)
+# plot the data
+plt.figure()
+plt.plot(two_level.iloc[:, 0], two_level.iloc[:, 1], label='Two level defect', color='blue', alpha=0.5)
+plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 1], label='$E_{t1}$ recombination', linestyle='dashed', color='red', alpha=0.5)
+plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 2], label='$E_{t2}$ recombination', linestyle='dashed', color='green', alpha=0.5)
+plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 3], label='Two independent defects', linestyle='dashed', color='red', alpha=1)
+plt.legend(fontsize=11, loc='upper left', ncol=2)
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel(r'Excess carrer concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+plt.ylabel('Lifetime (s)', fontsize=ylabel_size)
+plt.xticks(fontsize=xtick_size)
+plt.yticks([1e-5, 1e-3, 1e-1, 10], fontsize=ytick_size)
+plt.ylim((1e-5, 1e3))
+plt.show()
+# %% Figure 4 (a) in Journal
+# define the path
+path1 = r"D:\study\thesis_data_storage\journal\set_classification\plot_data\Et_04_01.csv"
+path2 = r"D:\study\thesis_data_storage\journal\set_classification\plot_data\Et_04_n01.csv"
+path3 = r"D:\study\thesis_data_storage\journal\set_classification\plot_data\Et_n04_01.csv"
+path4 = r"D:\study\thesis_data_storage\journal\set_classification\plot_data\Et_n04_n01.csv"
+# read the data
+data1 = pd.read_csv(path1)
+data2 = pd.read_csv(path2)
+data3 = pd.read_csv(path3)
+data4 = pd.read_csv(path4)
+
+# Plot the data
+fig, axis = plt.subplots(1, 2, figsize=(15, 5))
+
+# First subplot
+axis[0].plot(data1.iloc[:, 0], data1.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color='blue', alpha=0.5)
+axis[0].plot(data2.iloc[:, 0], data2.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.1 eV', linestyle='dashed', color='red', alpha=0.5)
+axis[0].legend(fontsize=legend_size, loc='lower left', ncol=1)
+axis[0].set_xscale('log')
+axis[0].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+axis[0].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+axis[0].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
+axis[0].set_yticks([1, 2, 3, 4], fontsize=ytick_size)
+axis[0].text(0.95, 0.95, '(a)', transform=axis[0].transAxes, fontsize=20, va='top', ha='right')
+axis[0].tick_params(axis='both', which='major', labelsize=xtick_size)
+# Second subplot
+axis[1].plot(data3.iloc[:, 0], data3.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.1 eV', color='blue', alpha=0.5)
+axis[1].plot(data4.iloc[:, 0], data4.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.1 eV', linestyle='dashed', color='red', alpha=0.5)
+axis[1].legend(fontsize=legend_size, loc='lower left', ncol=1)
+axis[1].set_xscale('log')
+axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
+axis[1].set_yticks([0.1, 0.5, 1], fontsize=ytick_size)
+axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
+axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
 plt.show()
