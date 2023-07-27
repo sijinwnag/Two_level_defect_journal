@@ -9,6 +9,8 @@ from sklearn.metrics import r2_score, mean_absolute_error
 import matplotlib.font_manager as font_manager
 import matplotlib.cm as cm
 from matplotlib.ticker import MultipleLocator
+import matplotlib.colors as mcolors
+from matplotlib.ticker import MaxNLocator
 '''
 Image standard:
 fontsize = 22;
@@ -228,64 +230,79 @@ plt.show()
 # print(np.log10(x_max2))
 
 
-# Plot the zoom in data
-fig, axis = plt.subplots(1, 2, figsize=(15, 5))
+# %% Plot the zoom in data
 
+# %% Plot the zoom in data
+plt.figure(figsize=(10, 6))  # Set the figure size
+
+colour_number = 1200
+starting_index = 33
+ending_index = 36
 cmap = cm.get_cmap('viridis')  # Get the YlGn color map
-colors = cmap(np.linspace(0, 1, 5))  # Generate five colors from the color map
+colors = cmap(np.linspace(0, 1, colour_number))  # Generate a number of colors from the color map
 et2_values = [0.1, 0.05, 0, -0.05, -0.1]  # Et2 values for color scaling
 
-# First subplot
-axis[0].plot(data_04_01.iloc[33:35, 0], data_04_01.iloc[33:35, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
-axis[0].plot(data_04_005.iloc[33:35, 0], data_04_005.iloc[33:35, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
-axis[0].plot(data_04_0.iloc[33:35, 0], data_04_0.iloc[33:35, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0 eV', color=colors[2])
-axis[0].plot(data_04_n005.iloc[33:35, 0], data_04_n005.iloc[33:35, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
-axis[0].plot(data_04_n01.iloc[33:35, 0], data_04_n01.iloc[33:35, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
-# axis[0].legend(fontsize=legend_size, loc='lower left', ncol=1)
-# axis[0].set_xscale('log')
-axis[0].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
-axis[0].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
-# axis[0].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
-# axis[0].set_yticks([1, 2, 3, 4], fontsize=ytick_size)
-# axis[0].text(0.95, 0.95, '(a)', transform=axis[0].transAxes, fontsize=20, va='top', ha='right')
-# axis[0].tick_params(axis='both', which='major', labelsize=xtick_size)
-# Add a color bar for the first subplot
+# Plot the original lines
+plt.plot(data_04_01.iloc[starting_index:ending_index, 0], data_04_01.iloc[starting_index:ending_index, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
+plt.plot(data_04_n01.iloc[starting_index:ending_index, 0], data_04_n01.iloc[starting_index:ending_index, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.1 eV', color=colors[-1])
+
+# Equally fill the space between the two lines with 10 more lines that are parallel
+num_lines = colour_number - 2
+for i in range(1, num_lines + 1):
+    alpha_value = i / (num_lines + 1)  # Determine the alpha value for color and transparency
+    y_values = (1 - alpha_value) * data_04_01.iloc[starting_index:ending_index, 1]*1e6 + alpha_value * data_04_n01.iloc[starting_index:ending_index, 1]*1e6
+    plt.plot(data_04_01.iloc[starting_index:ending_index, 0], y_values, color=colors[i+1], alpha=alpha_value)
+
+# Axis setting
+# plt.xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+# plt.ylabel('Lifetime (µs)', fontsize=ylabel_size)
+
+# Set the x-axis to show only 3 ticks
+num_ticks = 3
+plt.gca().xaxis.set_major_locator(MaxNLocator(num_ticks))
+plt.tick_params(axis='both', labelsize=ytick_size)
+
+# Add colorbar
 sm = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
 sm.set_array([])
-cbar = plt.colorbar(sm, ax=axis[0])
+cbar = plt.colorbar(sm)
 cbar.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
 cbar.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
 cbar.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
 cbar.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
 cbar.ax.tick_params(labelsize=ytick_size)
 
+plt.show()  # Show the plot
+
+
 # Second subplot
-axis[1].plot(data_n04_01.iloc[:, 0], data_n04_01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
-axis[1].plot(data_n04_005.iloc[:, 0], data_n04_005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
-axis[1].plot(data_n04_0.iloc[:, 0], data_n04_0.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0 eV', color=colors[2])
-axis[1].plot(data_n04_n005.iloc[:, 0], data_n04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
-axis[1].plot(data_n04_n01.iloc[:, 0], data_n04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
-# axis[1].legend(fontsize=legend_size, loc='lower left', ncol=1)
-axis[1].set_xscale('log')
-axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
-axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
-axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
-axis[1].set_yticks([0.1, 0.5, 1], fontsize=ytick_size)
-axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
-axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
+# axis[1].plot(data_n04_01.iloc[:, 0], data_n04_01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
+# axis[1].plot(data_n04_005.iloc[:, 0], data_n04_005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
+# axis[1].plot(data_n04_0.iloc[:, 0], data_n04_0.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0 eV', color=colors[2])
+# axis[1].plot(data_n04_n005.iloc[:, 0], data_n04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
+# axis[1].plot(data_n04_n01.iloc[:, 0], data_n04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
+# # axis[1].legend(fontsize=legend_size, loc='lower left', ncol=1)
+# axis[1].set_xscale('log')
+# axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+# axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+# axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
+# axis[1].set_yticks([0.1, 0.5, 1], fontsize=ytick_size)
+# axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
+# axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
 
-# Add a color bar for the second subplot
-sm2 = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
-sm2.set_array([])
-cbar2 = plt.colorbar(sm2, ax=axis[1])
-cbar2.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
-cbar2.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
-cbar2.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
-cbar2.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
-cbar2.ax.tick_params(labelsize=ytick_size)
+# # Add a color bar for the second subplot
+# sm2 = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
+# sm2.set_array([])
+# cbar2 = plt.colorbar(sm2, ax=axis[1])
+# cbar2.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
+# cbar2.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
+# cbar2.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
+# cbar2.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
+# cbar2.ax.tick_params(labelsize=ytick_size)
 
-# adjust spacing between subplots
-plt.subplots_adjust(wspace=0.5)
-plt.show()
+# # adjust spacing between subplots
+# plt.subplots_adjust(wspace=0.5)
+# plt.show()
 
 # to do: change to 500000 data point then add width
+# %%
