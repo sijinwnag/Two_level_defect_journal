@@ -38,7 +38,7 @@ from two_level_simulator_object import *
 simulator = two_level_lifetime_generator()
 simulator.PARAMETERS['n_defects']=800
 # update the save directory
-simulator.SAVEDIR = r'C:\Users\sijin wang\Desktop'
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # update Et range
 simulator.PARAM['Et_min_1'] = -0.55
 simulator.PARAM['Et_max_1'] = 0.55
@@ -49,9 +49,9 @@ simulator.mixture_simulate()
 
 # %% Simulate two-level-lifetime only
 simulator = two_level_lifetime_generator()
-simulator.PARAMETERS['n_defects']=8000
+simulator.PARAMETERS['n_defects']=800
 # update the save directory
-simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\set_classification\test_set"
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # update Et range
 simulator.PARAM['Et_min_1'] = -0.55
 simulator.PARAM['Et_max_1'] = 0.55

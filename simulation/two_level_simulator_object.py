@@ -5,7 +5,7 @@ import sys
 # from Si import *
 
 # use this line for dell laptop:
-sys.path.append(r'C:\Users\sijin wang\Documents\GitHub\yoann_code_new')
+# sys.path.append(r'C:\Users\sijin wang\Documents\GitHub\yoann_code_new')
 # use this line for workstation:
 # sys.path.append(r'C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\Two_level_defect_journal\simulation\DPML')
 # sys.path.append(r'C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\Two_level_defect_journal\simulation')

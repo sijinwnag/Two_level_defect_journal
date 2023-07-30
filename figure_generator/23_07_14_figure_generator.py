@@ -168,7 +168,7 @@ axis[1].set_xscale('log')
 axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
 axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
 axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
-axis[1].set_yticks([0.1, 0.5, 1], fontsize=ytick_size)
+axis[1].set_yticks([0, 1, 2], fontsize=ytick_size)
 axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
 axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
 
@@ -231,13 +231,11 @@ plt.show()
 
 
 # %% Plot the zoom in data
-
-# %% Plot the zoom in data
 plt.figure(figsize=(10, 6))  # Set the figure size
 
 colour_number = 1200
 starting_index = 33
-ending_index = 36
+ending_index = 35
 cmap = cm.get_cmap('viridis')  # Get the YlGn color map
 colors = cmap(np.linspace(0, 1, colour_number))  # Generate a number of colors from the color map
 et2_values = [0.1, 0.05, 0, -0.05, -0.1]  # Et2 values for color scaling
@@ -260,7 +258,7 @@ for i in range(1, num_lines + 1):
 # Set the x-axis to show only 3 ticks
 num_ticks = 3
 plt.gca().xaxis.set_major_locator(MaxNLocator(num_ticks))
-plt.tick_params(axis='both', labelsize=ytick_size)
+plt.tick_params(axis='both', labelsize=ytick_size*2)
 
 # Add colorbar
 sm = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
@@ -274,35 +272,100 @@ cbar.ax.tick_params(labelsize=ytick_size)
 
 plt.show()  # Show the plot
 
+# %% Figure 6 of the journal article
+
+# define the path
+path_045_040 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
+path_045_050 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
+
+# import the data
+data_045_040 = pd.read_csv(path_045_040)
+data_045_050 = pd.read_csv(path_045_050)
+
+# Plot the data
+fig, axis = plt.subplots(1, 2, figsize=(15, 5))
+
+# define the parameters
+colour_number = 100
+cmap = cm.get_cmap('viridis')  # Get the YlGn color map
+colors = cmap(np.linspace(0, 1, colour_number))  # Generate five colors from the color map
+et2_values = [0.45, 0.50, 0.55]  # Et2 values for color scaling
+
+# First subplot
+axis[0].plot(data_045_040.iloc[:, 0], data_045_040.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
+axis[0].plot(data_045_050.iloc[:, 0], data_045_050.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.05 eV', color=colors[-1])
+
+axis[0].set_xscale('log')
+axis[0].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+axis[0].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+axis[0].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
+axis[0].set_yticks([5, 10, 15, 20], fontsize=ytick_size)
+axis[0].text(0.95, 0.95, '(a)', transform=axis[0].transAxes, fontsize=20, va='top', ha='right')
+axis[0].tick_params(axis='both', which='major', labelsize=xtick_size)
+# Add a color bar for the first subplot
+sm = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
+sm.set_array([])
+cbar = plt.colorbar(sm, ax=axis[0])
+cbar.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
+cbar.set_ticks([0.45, 0.50, 0.55])  # Set the tick positions
+cbar.set_ticklabels([0.45, 0.50, 0.55])  # Set the tick labels
+cbar.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
+cbar.ax.tick_params(labelsize=ytick_size)
+
+# Code for equally filling the space between the two lines in Plot A
+num_lines = colour_number - 2
+for i in range(1, num_lines + 1):
+    alpha_value = i / (num_lines + 1)  # Determine the alpha value for color and transparency
+    y_values = (1 - alpha_value) * data_045_040.iloc[:, 1] * 1e6 + alpha_value * data_045_050.iloc[:, 1] * 1e6
+    axis[0].plot(data_045_040.iloc[:, 0], y_values, color=colors[i+1], alpha=alpha_value)
+
+
+# Repeat the same process for subplot B
+# Define the path
+path_050_045 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6b\Et_050_045.csv"
+path_050_055 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6b\Et_050_055.csv"
+
+# Import the data
+data_050_045 = pd.read_csv(path_050_045)
+data_050_055 = pd.read_csv(path_050_055)
+
+# Set the layout to have wider spacing between subplots
+plt.subplots_adjust(wspace=0.6)
+
+# Plot B
+# define the parameters for plot B
+colour_number_plot_b = 10000
+cmap_b = cm.get_cmap('viridis')
+colors_b = cmap_b(np.linspace(0, 1, colour_number_plot_b))
+et2_values_b = [0.45, 0.50, 0.55]
 
 # Second subplot
-# axis[1].plot(data_n04_01.iloc[:, 0], data_n04_01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
-# axis[1].plot(data_n04_005.iloc[:, 0], data_n04_005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
-# axis[1].plot(data_n04_0.iloc[:, 0], data_n04_0.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0 eV', color=colors[2])
-# axis[1].plot(data_n04_n005.iloc[:, 0], data_n04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
-# axis[1].plot(data_n04_n01.iloc[:, 0], data_n04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
-# # axis[1].legend(fontsize=legend_size, loc='lower left', ncol=1)
-# axis[1].set_xscale('log')
-# axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
-# axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
-# axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
-# axis[1].set_yticks([0.1, 0.5, 1], fontsize=ytick_size)
-# axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
-# axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
+axis[1].plot(data_050_045.iloc[:, 0], data_050_045.iloc[:, 1]*1e6, label='$E_{t1}$=0.5 eV; $E_{t2}$=0.05 eV', color=colors_b[0])
+axis[1].plot(data_050_055.iloc[:, 0], data_050_055.iloc[:, 1]*1e6, label='$E_{t1}$=0.5 eV; $E_{t2}$=0.55 eV', color=colors_b[-1])
 
-# # Add a color bar for the second subplot
-# sm2 = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
-# sm2.set_array([])
-# cbar2 = plt.colorbar(sm2, ax=axis[1])
-# cbar2.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
-# cbar2.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
-# cbar2.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
-# cbar2.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
-# cbar2.ax.tick_params(labelsize=ytick_size)
+axis[1].set_xscale('log')
+axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
+axis[1].set_yticks([200, 400, 600, 800, 1000], fontsize=ytick_size)
+axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
+axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
 
-# # adjust spacing between subplots
-# plt.subplots_adjust(wspace=0.5)
-# plt.show()
+# Code for equally filling the space between the two lines in Plot B
+num_lines_b = colour_number_plot_b - 2
+for i in range(1, num_lines_b + 1):
+    alpha_value = i / (num_lines_b + 1)
+    y_values = (1 - alpha_value) * data_050_045.iloc[:, 1] * 1e6 + alpha_value * data_050_055.iloc[:, 1] * 1e6
+    axis[1].plot(data_050_045.iloc[:, 0], y_values, color=colors_b[i], alpha=alpha_value)
 
-# to do: change to 500000 data point then add width
-# %%
+# Add a color bar for the second subplot with actual et2_values range
+et2_values_actual_b = [0.45, 0.55]
+sm2 = cm.ScalarMappable(cmap=cmap_b, norm=plt.Normalize(et2_values_actual_b[0], et2_values_actual_b[1]))
+sm2.set_array([])
+cbar2 = plt.colorbar(sm2, ax=axis[1])
+cbar2.set_ticks([0.45, 0.50, 0.55])
+cbar2.set_ticklabels([0.45, 0.50, 0.55])
+cbar2.ax.tick_params(labelsize=ytick_size)
+cbar2.set_label('$E_{t1}$ values (eV)', fontsize=ytick_size)
+
+plt.show()  # Show the plot

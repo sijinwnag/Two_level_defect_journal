@@ -172,7 +172,7 @@ class defect_classifier():
         Input:
             trained_model_path
             trained_scaler_path
-            test_data_path
+            test_data_path: the path to the test data
 
         Output:
             a classification report regarding the testing 
@@ -209,6 +209,9 @@ class defect_classifier():
 
         # make a report
         print(classification_report(y_test, y_pred))
+
+        # make a confusion matrix
+        print(confusion_matrix(y_test, y_pred, normalize='all'))
 
 
     def email_reminder(self):

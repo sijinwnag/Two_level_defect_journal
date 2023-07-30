@@ -4,12 +4,25 @@ from defect_level_classification_object import *
 # %% training&test and export a model
 defect_classifier = defect_classifier()
 
-# define the training path
-defect_classifier.training_path = r"C:\Users\z5183876\OneDrive - UNSW\Documents\GitHub\yoann_code_new\Savedir_example\outputs\outputs\2023-01-21-12-51-51_advanced example - multi_level_L_datasetID_0.csv"
+# define the training path, the path to the training data
+defect_classifier.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\training_data\80k\2022-09-15-09-00-01_advanced example - multi_level_L_datasetID_0.csv"
 
-# train hte model
+# train the model
 defect_classifier.train_export_model()
-# %% testing the trained model
+
+# %% testing
+# define the object
+defect_classifier = defect_classifier()
+
+# define the scaler and maechine learnign model path
+defect_classifier.trained_model_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\model_defect_classification.joblib"
+defect_classifier.trained_scaler_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\scaler_for_defect_classification.joblib"
+defect_classifier.test_data_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data\outputs\2023-07-30-18-52-48_advanced example - multi_level_L_datasetID_0.csv"
+
+# testing
+defect_classifier.test_model()
+
+# %% testing the trained model varying Et1
 
 # define the object
 defect_classifier = defect_classifier()
