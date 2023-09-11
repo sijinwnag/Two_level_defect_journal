@@ -20,12 +20,11 @@ figure size = 7 by 7;
 # define the parameters
 figuresize = (7, 8)
 subplots_figuresize = (12, 12)
-xtick_size = 22
+xtick_size = 18
 ytick_size = xtick_size
-ylabel_size = 22
 title_size = 25
-axis_numbersize = 22
-xlabel_size = 22
+axis_numbersize = 18
+xlabel_size = 18
 ylabel_size = xlabel_size
 text_size=22
 chart_number_size = 25
@@ -41,8 +40,8 @@ one_level = pd.read_csv(path2)
 two_level = pd.read_csv(path1)
 # plot the data
 plt.figure()
-plt.plot(two_level.iloc[:, 0], two_level.iloc[:, 1], label='Two level defect', color='blue', alpha=0.5)
-plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 1], label='One level defect', linestyle='dashed', color='red', alpha=1)
+plt.plot(two_level.iloc[:, 0], two_level.iloc[:, 1], label='Two-level defect', color='blue', alpha=0.5)
+plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 1], label='One-level defect', linestyle='dashed', color='red', alpha=1)
 plt.legend(fontsize=11, loc='lower left', ncol=1)
 plt.xscale('log')
 plt.yscale('log')
@@ -76,7 +75,7 @@ two_level = pd.read_csv(path1)
 # plot the data
 plt.figure()
 # plt.plot(two_level.iloc[:, 0], two_level.iloc[:, 1], label='Two level defect', color='blue', alpha=0.5)
-plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 1], label='One level defect lifetime ($E_{t}$=$E_{t}$)', color='blue', alpha=1)
+plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 1], label='One level defect lifetime', color='blue', alpha=1)
 # plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 2], label='$E_{t2}$ recombination', linestyle='dashed', color='green', alpha=0.5)
 plt.plot(one_level.iloc[:, 0], one_level.iloc[:, 3], label='Effective lifetime of two independent defects', linestyle='dashed', color='red', alpha=1)
 plt.legend(fontsize=11, loc='lower left', ncol=1)
@@ -125,67 +124,105 @@ data_n04_005 = pd.read_csv(path_n04_005)
 data_n04_0 = pd.read_csv(path_n04_0)
 data_n04_n005 = pd.read_csv(path_n04_n005)
 
-# Plot the data
-fig, axis = plt.subplots(1, 2, figsize=(15, 5))
+# Create a figure and axis for the first plot
+fig1, ax1 = plt.subplots(figsize=(8, 5))  # Adjust the figure size as needed
 
-cmap = cm.get_cmap('viridis')  # Get the YlGn color map
-colors = cmap(np.linspace(0, 1, 5))  # Generate five colors from the color map
-et2_values = [0.1, 0.05, 0, -0.05, -0.1]  # Et2 values for color scaling
+# Create a color map
+cmap = cm.get_cmap('coolwarm')
+colors = cmap(np.linspace(0, 1, 5))
+et2_values = [0.1, 0.05, 0, -0.05, -0.1]
 
-# First subplot
-axis[0].plot(data_04_01.iloc[:, 0], data_04_01.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
-axis[0].plot(data_04_005.iloc[:, 0], data_04_005.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
-axis[0].plot(data_04_0.iloc[:, 0], data_04_0.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0 eV', color=colors[2])
-axis[0].plot(data_04_n005.iloc[:, 0], data_04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
-axis[0].plot(data_04_n01.iloc[:, 0], data_04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
-# axis[0].legend(fontsize=legend_size, loc='lower left', ncol=1)
-axis[0].set_xscale('log')
-axis[0].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
-axis[0].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
-axis[0].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
-axis[0].set_yticks([1, 2, 3, 4], fontsize=ytick_size)
-axis[0].text(0.95, 0.95, '(a)', transform=axis[0].transAxes, fontsize=20, va='top', ha='right')
-axis[0].tick_params(axis='both', which='major', labelsize=xtick_size)
-# Add a color bar for the first subplot
+# Plot the data for the first plot
+ax1.plot(data_04_01.iloc[:, 0], data_04_01.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
+ax1.plot(data_04_005.iloc[:, 0], data_04_005.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
+ax1.plot(data_04_0.iloc[:, 0], data_04_0.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0 eV', color=colors[2])
+ax1.plot(data_04_n005.iloc[:, 0], data_04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
+ax1.plot(data_04_n01.iloc[:, 0], data_04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
+
+# Set the x-axis to a logarithmic scale
+ax1.set_xscale('log')
+
+# Set labels and ticks
+ax1.set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+ax1.set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+ax1.set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17])
+ax1.set_yticks([1, 2, 3, 4])
+ax1.tick_params(axis='both', which='major', labelsize=xtick_size)
+
+# Add a color bar for the first plot
 sm = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
 sm.set_array([])
-cbar = plt.colorbar(sm, ax=axis[0])
-cbar.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
-cbar.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
-cbar.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
+cbar = plt.colorbar(sm, ax=ax1)
+cbar.ax.yaxis.set_major_locator(MultipleLocator(0.2))
+cbar.set_ticks([-0.1, 0, 0.1])
+cbar.set_ticklabels([-0.1, 0, 0.1])
 cbar.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
 cbar.ax.tick_params(labelsize=ytick_size)
 
-# Second subplot
-# Second subplot
-axis[1].plot(data_n04_01.iloc[:, 0], data_n04_01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
-axis[1].plot(data_n04_005.iloc[:, 0], data_n04_005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
-axis[1].plot(data_n04_0.iloc[:, 0], data_n04_0.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0 eV', color=colors[2])
-axis[1].plot(data_n04_n005.iloc[:, 0], data_n04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
-axis[1].plot(data_n04_n01.iloc[:, 0], data_n04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
-# axis[1].legend(fontsize=legend_size, loc='lower left', ncol=1)
-axis[1].set_xscale('log')
-axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
-axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
-axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
-axis[1].set_yticks([0, 1, 2], fontsize=ytick_size)
-axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
-axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
-
-# Add a color bar for the second subplot
-sm2 = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
-sm2.set_array([])
-cbar2 = plt.colorbar(sm2, ax=axis[1])
-cbar2.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
-cbar2.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
-cbar2.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
-cbar2.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
-cbar2.ax.tick_params(labelsize=ytick_size)
-
-# adjust spacing between subplots
-plt.subplots_adjust(wspace=0.5)
-
+# Show the first plot
 plt.show()
+
+# Plot the data
+# fig, axis = plt.subplots(1, 2, figsize=(15, 5))
+
+# cmap = cm.get_cmap('viridis')  # Get the YlGn color map
+# colors = cmap(np.linspace(0, 1, 5))  # Generate five colors from the color map
+# et2_values = [0.1, 0.05, 0, -0.05, -0.1]  # Et2 values for color scaling
+
+# # First subplot
+# axis[0].plot(data_04_01.iloc[:, 0], data_04_01.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
+# axis[0].plot(data_04_005.iloc[:, 0], data_04_005.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
+# axis[0].plot(data_04_0.iloc[:, 0], data_04_0.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0 eV', color=colors[2])
+# axis[0].plot(data_04_n005.iloc[:, 0], data_04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
+# axis[0].plot(data_04_n01.iloc[:, 0], data_04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
+# # axis[0].legend(fontsize=legend_size, loc='lower left', ncol=1)
+# axis[0].set_xscale('log')
+# axis[0].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+# axis[0].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+# axis[0].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
+# axis[0].set_yticks([1, 2, 3, 4], fontsize=ytick_size)
+# axis[0].text(0.95, 0.95, '(a)', transform=axis[0].transAxes, fontsize=20, va='top', ha='right')
+# axis[0].tick_params(axis='both', which='major', labelsize=xtick_size)
+# # Add a color bar for the first subplot
+# sm = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
+# sm.set_array([])
+# cbar = plt.colorbar(sm, ax=axis[0])
+# cbar.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
+# cbar.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
+# cbar.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
+# cbar.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
+# cbar.ax.tick_params(labelsize=ytick_size)
+
+# # Second subplot
+# # Second subplot
+# axis[1].plot(data_n04_01.iloc[:, 0], data_n04_01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
+# axis[1].plot(data_n04_005.iloc[:, 0], data_n04_005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0.05 eV', color=colors[1])
+# axis[1].plot(data_n04_0.iloc[:, 0], data_n04_0.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=0 eV', color=colors[2])
+# axis[1].plot(data_n04_n005.iloc[:, 0], data_n04_n005.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.05 eV', color=colors[3])
+# axis[1].plot(data_n04_n01.iloc[:, 0], data_n04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=-0.4 eV; $E_{t2}$=-0.1 eV', color=colors[4])
+# # axis[1].legend(fontsize=legend_size, loc='lower left', ncol=1)
+# axis[1].set_xscale('log')
+# axis[1].set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
+# axis[1].set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
+# axis[1].set_xticks([1e12, 1e13, 1e14, 1e15, 1e16, 1e17], fontsize=xtick_size)
+# axis[1].set_yticks([0, 1, 2], fontsize=ytick_size)
+# axis[1].text(0.95, 0.95, '(b)', transform=axis[1].transAxes, fontsize=20, va='top', ha='right')
+# axis[1].tick_params(axis='both', which='major', labelsize=xtick_size)
+
+# # Add a color bar for the second subplot
+# sm2 = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
+# sm2.set_array([])
+# cbar2 = plt.colorbar(sm2, ax=axis[1])
+# cbar2.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
+# cbar2.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
+# cbar2.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
+# cbar2.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
+# cbar2.ax.tick_params(labelsize=ytick_size)
+
+# # adjust spacing between subplots
+# plt.subplots_adjust(wspace=0.5)
+
+# plt.show()
 
 
 # # plot the difference between the lifetime to pick where to zoom in
@@ -236,7 +273,7 @@ plt.figure(figsize=(10, 6))  # Set the figure size
 colour_number = 1200
 starting_index = 33
 ending_index = 35
-cmap = cm.get_cmap('viridis')  # Get the YlGn color map
+cmap = cm.get_cmap('coolwarm')  # Get the YlGn color map
 colors = cmap(np.linspace(0, 1, colour_number))  # Generate a number of colors from the color map
 et2_values = [0.1, 0.05, 0, -0.05, -0.1]  # Et2 values for color scaling
 
@@ -369,3 +406,241 @@ cbar2.ax.tick_params(labelsize=ytick_size)
 cbar2.set_label('$E_{t1}$ values (eV)', fontsize=ytick_size)
 
 plt.show()  # Show the plot
+
+# %% Figure 5: regression true vs prediction
+# Set 11 p type.
+path_Et1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\Et_eV_1set11_800k.csv'
+path_Et2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\Et_eV_2set11_800k.csv'
+path_Sn1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSn_1set11_800k.csv'
+path_Sn2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSn_2set11_800k.csv'
+path_Sp1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSp_1set11_800k.csv'
+path_Sp2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSp_2set11_800k.csv'
+path_k1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\logk_1set11_800k.csv'
+path_k2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\logk_2set11_800k.csv'
+# Set 11 n type.
+path_Et1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\Et_eV_1set11_800k_n.csv'
+path_Et2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\Et_eV_2set11_800k_n.csv'
+path_Sn1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSn_1set11_800k_n.csv'
+path_Sn2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSn_2set11_800k_n.csv'
+path_Sp1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSp_1set11_800k_n.csv'
+path_Sp2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSp_2set11_800k_n.csv'
+path_k1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logk_1set11_800k_n.csv'
+path_k2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logk_2set11_800k_n.csv'
+# Set 10 p type.
+path_Et1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\Et_eV_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Et2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\Et_eV_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sn1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSn_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sn2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSn_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sp1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSp_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sp2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSp_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_k1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\logk_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_k2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\logk_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+# Set 10 n type.
+path_Et1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\Et_eV_1set10_800k_n.csv'
+path_Et2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\Et_eV_2set10_800k_n.csv'
+path_Sn1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSn_1set10_800k_n.csv'
+path_Sn2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSn_2set10_800k_n.csv'
+path_Sp1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSp_1set10_800k_n.csv'
+path_Sp2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSp_2set10_800k_n.csv'
+path_k1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\logk_1set10_800k_n.csv'
+path_k2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\logk_2set10_800k_n.csv'
+# Set 01 p type.
+path_Et1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\Et_eV_1set01_800k_p.csv'
+path_Et2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\Et_eV_2set01_800k_p.csv'
+path_k1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logk_1set01_800k_p.csv'
+path_k2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logk_2set01_800k_p.csv'
+path_Sn1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSn_1set01_800k_p.csv'
+path_Sn2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSn_2set01_800k_p.csv'
+path_Sp1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSp_1set01_800k_p.csv'
+path_Sp2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSp_2set01_800k_p.csv'
+# Set 01 n type.
+path_Et1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\Et_eV_1set01_800k_n.csv'
+path_Et2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\Et_eV_2set01_800k_n.csv'
+path_Sn1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSn_1set01_800k_n.csv'
+path_Sn2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSn_2set01_800k_n.csv'
+path_Sp1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSp_1set01_800k_n.csv'
+path_Sp2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSp_2set01_800k_n.csv'
+path_k1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\logk_1set01_800k_n.csv'
+path_k2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\logk_2set01_800k_n.csv'
+# Set 00 p type.
+path_Et1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\Et_eV_1set00_800k.csv'
+path_Et2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\Et_eV_2set00_800k.csv'
+path_k1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logk_1set00_800k.csv'
+path_k2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logk_2set00_800k.csv'
+path_Sn1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSn_1set00_800k.csv'
+path_Sn2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSn_2set00_800k.csv'
+path_Sp1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSp_1set00_800k.csv'
+path_Sp2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSp_2set00_800k.csv'
+# Set 00 n type.
+path_Et1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\Et_eV_1set00_n_800k.csv'
+path_Et2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\Et_eV_2set00_n_800k.csv'
+path_k1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logk_1set00_n_800k.csv'
+path_k2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logk_2set00_n_800k.csv'
+path_Sn1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSn_1set00_n_800k.csv'
+path_Sn2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSn_2set00_n_800k.csv'
+path_Sp1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSp_1set00_n_800k.csv'
+path_Sp2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSp_2set00_n_800k.csv'
+# put everything in a list:
+# both n and p.
+# Et1list = [path_Et1_11_p, path_Et1_11_n, path_Et1_10_p, path_Et1_10_n, path_Et1_01_p, path_Et1_01_n, path_Et1_00_p, path_Et1_00_n]
+# Et2list = [path_Et2_11_p, path_Et2_11_n, path_Et2_10_p, path_Et2_10_n, path_Et2_01_p, path_Et2_01_n, path_Et2_00_p, path_Et2_00_n]
+# Sn1list = [path_Sn1_11_p, path_Sn1_11_n, path_Sn1_10_p, path_Sn1_10_n, path_Sn1_01_p, path_Sn1_01_n, path_Sn1_00_p, path_Sn1_00_n]
+# Sn2list = [path_Sn2_11_p, path_Sn2_11_n, path_Sn2_10_p, path_Sn2_10_n, path_Sn2_01_p, path_Sn2_01_n, path_Sn2_00_p, path_Sn2_00_n]
+# Sp1list = [path_Sp1_11_p, path_Sp1_11_n, path_Sp1_10_p, path_Sp1_10_n, path_Sp1_01_p, path_Sp1_01_n, path_Sp1_00_p, path_Sp1_00_n]
+# Sp2list = [path_Sp2_11_p, path_Sp2_11_n, path_Sp2_10_p, path_Sp2_10_n, path_Sp2_01_p, path_Sp2_01_n, path_Sp2_00_p, path_Sp2_00_n]
+# p.
+Et1list = [path_Et1_11_p, path_Et1_10_p, path_Et1_01_p, path_Et1_00_p]
+Et2list = [path_Et2_11_p, path_Et2_10_p, path_Et2_01_p, path_Et2_00_p]
+Sn1list = [path_Sn1_11_p,  path_Sn1_10_p,path_Sn1_01_p, path_Sn1_00_p]
+Sn2list = [path_Sn2_11_p, path_Sn2_10_p, path_Sn2_01_p, path_Sn2_00_p]
+Sp1list = [path_Sp1_11_p, path_Sp1_10_p, path_Sp1_01_p, path_Sp1_00_p]
+Sp2list = [path_Sp2_11_p, path_Sp2_10_p, path_Sp2_01_p, path_Sp2_00_p]
+k1list = [path_k1_11_p, path_k1_10_p, path_k1_01_p, path_k1_00_p]
+k2list = [path_k2_11_p, path_k2_10_p, path_k2_01_p, path_k2_00_p]
+
+
+# # Plotting perfect prediction sinario
+# fig= plt.figure(facecolor='white', figsize=(6, 6))
+# ax = fig.add_subplot(111)
+# true = Truelist
+# prediction = predictionlist
+# plt.scatter(true, prediction, label=('$R^2$' + '=' + str(round(R2, 3))) + ('; MAE' + '=' + str(round(MAE, 3))), alpha=0, color='green')
+# plt.plot(true, true, color='r')
+# plt.xlabel('True', fontsize=20)
+# plt.ylabel('Prediction', fontsize=20)
+# ax.set_aspect("equal")
+# # # plt.text(0, 0.5, alphabet[k], fontsize=20)
+# # # # plt.title('$E_{t1}$', fontsize=25)
+# # # plt.title('True vs prediction plot', fontsize=20)
+# # plt.legend(loc=4, framealpha=0.1, fontsize=20)
+# plt.xticks(fontsize=15, font=font_family)
+# plt.yticks(fontsize=15, font=font_family)
+# plt.savefig(fname=str('Et1') + '.png', bbox_inches='tight')
+# plt.show()
+
+# define the font family
+font_family = 'Calibri'
+
+filetnamelist = ['Et1', 'Et2', 'Sn1', 'Sn2', 'Sp1', 'Sp2', 'k1', 'k2']
+title1 = r'$\mathit{E}_{\mathrm{t1}}$' + ' (eV)'
+# title1 = r'Primary T$_{\rm eff}$'
+title2 = r'$\mathit{E}_{\mathrm{t2}}$' + ' (eV)'
+title3 = r'log$(\sigma_{\rm n1})$ ' + r'(cm$^{-3}$)'
+title4 = r'log$(\sigma_{\rm n2})$ ' + r'(cm$^{-3}$)'
+title5 = r'log$(\sigma_{\rm p1})$ ' + r'(cm$^{-3}$)'
+title6 = r'log$(\sigma_{\rm p2})$ ' + r'(cm$^{-3}$)'
+title7 = 'log$(k_1)$'
+title8 = 'log$(k_2)$'
+textlist = ['(a)', '(d)', '(b)', '(e)', '(c)', '(f)', '(g)', '(h)']
+titlelist = [title1, title2, title3, title4, title5, title6, title7, title8]
+xlabels = []
+ylabels = []
+titlelist2 = []
+for title in titlelist:
+    xlabels.append('True ' + title)
+    ylabels.append('Predicted ' + title)
+
+title1 = r'E$_{\rm t1}$' + ' (eV)'
+title2 = r'E$_{t2}$' + ' (eV)'
+title3 = 'log$(\sigma_{n1})$ ' + r'(cm$^{-3}$)'
+title4 = 'log$(\sigma_{n2})$ ' + r'(cm$^{-3}$)'
+title5 = 'log$(\sigma_{p1})$ ' + r'(cm$^{-3}$)'
+title6 = 'log$(\sigma_{p2})$ ' + r'(cm$^{-3}$)'
+# title7 = 'log(k$_1)$'
+# title8 = 'log(k$_2)$'
+titlelist2 = [title1, title3, title5, title2, title4, title6] # , title7, title8]
+titlelist = []
+for title in titlelist2:
+    titlelist.append('RF ' + title + ' prediction')
+
+counter = 0
+for task in [Et1list, Sn1list, Sp1list, Et2list, Sn2list, Sp2list]: # k1list, k2list]:
+    # extract the dataset.
+    filename = filetnamelist[counter]
+    Truelist = []
+    predictionlist = []
+    for path in task:
+        data = pd.read_csv(path)
+        # the second column is true value:
+        true = np.array(data)[:, 1]
+        Truelist.append(true)
+        # the third column is the prediction value:
+        prediction = np.array(data)[:, 2]
+        predictionlist.append(prediction)
+
+    # flattern the list into 1d array.
+    Truelist = np.array(Truelist).flatten()
+    predictionlist = np.array(predictionlist).flatten()
+
+    # subsampling.
+    sampleindex = np.random.randint(0, np.shape(Truelist)[0], 10000)
+    Truelist = Truelist[sampleindex]
+    predictionlist = predictionlist[sampleindex]
+
+    # calculate evaluation matrix.
+    R2 = round(r2_score(Truelist, predictionlist), 3)
+    R2 = f'{R2:.3f}'
+    # print(R2)
+    MAE = round(mean_absolute_error(Truelist, predictionlist), 3)
+    MAE = f'{MAE:.3f}'
+    mape = np.mean(np.abs((np.array(Truelist) - np.array(predictionlist)) / Truelist)) * 100
+    # print(MAE)
+    print(mape)
+
+    # plotting without centre line.
+    fig= plt.figure(facecolor='white', figsize=(5, 5))
+    ax = fig.add_subplot(111)
+    true = Truelist
+    prediction = predictionlist
+    plt.scatter(true, prediction, label=('R$^2$' + '=' + str(R2)) + ('; MAE' + '=' + str(MAE)), alpha=0.01, color='green')
+    # plt.plot(true, true, color='r')
+    plt.xlabel(xlabels[counter], fontsize=22, font=font_family)
+    plt.ylabel(ylabels[counter], fontsize=22, font=font_family)
+    ax.set_aspect("equal")
+    # # plt.title(str(titlelist[counter]), fontsize=25)
+    font = font_manager.FontProperties(family=font_family, style='normal', size=20)
+    plt.legend(loc=4, framealpha=0.1, prop=font)
+    plt.xticks(fontsize=22, font=font_family)
+    plt.yticks(fontsize=22, font=font_family)
+    # plt.text(0.05, 0.9, textlist[counter], transform=ax.transAxes, fontsize=22, font=font_family)
+    if filename[0] == 'S':
+        plt.xticks(range(-17, -12))
+        plt.yticks(range(-17, -12))
+    if filename[0] == 'E':
+        plt.xticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
+        plt.yticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
+        # plt.xticks([0, 0.2, 0.4, 0.6])
+        # plt.yticks([0, 0.2, 0.4, 0.6])
+        # plt.xticks([-0.6, -0.4, -0.2, 0])
+        # plt.yticks([-0.6, -0.4, -0.2, 0])
+
+    plt.savefig(fname=str(filetnamelist[counter]) + 'without center line' + '.png', bbox_inches='tight')
+    plt.show()
+
+    # # plotting with centre line.
+    # fig= plt.figure(facecolor='white', figsize=(5, 5))
+    # ax = fig.add_subplot(111)
+    # true = Truelist
+    # prediction = predictionlist
+    # plt.scatter(true, prediction, label=('R$^2$' + '=' + str(round(R2, 3))) + ('; MAE' + '=' + str(round(MAE, 3))), alpha=0.01, color='green')
+    # plt.plot(true, true, color='r')
+    # plt.xlabel(xlabels[counter], fontsize=22, font=font_family)
+    # plt.ylabel(ylabels[counter], fontsize=22, font=font_family)
+    # ax.set_aspect("equal")
+    # # # plt.text(0, 0.5, alphabet[k], fontsize=20)
+    # # # # plt.title(str(titlelist[counter]), fontsize=25)
+    # font = font_manager.FontProperties(family=font_family, style='normal', size=20)
+    # plt.legend(loc=4, framealpha=0.1, prop=font)
+    # plt.xticks(fontsize=15, font=font_family)
+    # plt.yticks(fontsize=15, font=font_family)
+    # if filename[0] == 'S':
+    #     # print(filename)
+    #     plt.xticks(range(-17, -12))
+    #     plt.yticks(range(-17, -12))
+    # if filename[0] == 'E' and len(task)>1:
+    #     plt.xticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
+    #     plt.yticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
+    # plt.savefig(fname=str(filetnamelist[counter]) + 'with center line' + '.png', bbox_inches='tight')
+    # plt.show()
+
+    counter = counter + 1

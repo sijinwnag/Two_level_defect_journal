@@ -27,6 +27,7 @@ from email.message import EmailMessage
 import os
 import sys
 from joblib import dump, load
+from sklearn.decomposition import PCA
 # from transformers import AutoModel, AutoTokenizer
 # from keras.layers import Dense, Dropout, Flatten
 # from keras.models import Model
@@ -60,15 +61,21 @@ class defect_classifier():
 
         # define the dimension of image-like data if using transfer learning
         self.image_dimension = (16000, 6, 100)
+
+        # define the directory to save the trained model, scaler and the pca
+        self.dump_directory = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model"
         
     
-    def train_export_model(self):
+    def train_export_model(self, use_PCA=False, PCA_feature_num=100):
         '''
         Input: training_path: the path of the training data
         Output: exrported scaler and model
         '''
         # load the training data
         self.training_data = pd.read_csv(self.training_path)
+
+        # define the dump directory
+        dump_directory = self.dump_directory
 
         # define the ML input
         # create a list to select X columns: if the column string contains cm, then identify it as X.
@@ -93,6 +100,19 @@ class defect_classifier():
         X_train_scaled = scaler.transform(X_train)
         X_test_scaled = scaler.transform(X_test)
 
+        # apply PCA if required
+        if use_PCA:
+            pca = PCA(n_components=PCA_feature_num)
+            pca.fit(X_train_scaled)
+
+            # Apply PCA transformation to both training and test data
+            X_train_scaled = pca.transform(X_train_scaled)
+            X_test_scaled = pca.transform(X_test_scaled)
+
+            # Export the PCA to the specified directory
+            pca_export_path = os.path.join(dump_directory, 'pca_for_defect_classification.joblib')
+            dump(pca, pca_export_path)
+
         # train the classifier
         print('training in progress')
         self.model.fit(X_train_scaled, y_train)
@@ -103,10 +123,11 @@ class defect_classifier():
         # classification report
         print(classification_report(y_test, y_pred))
 
-        # export the scaler and model
-        dump(scaler, 'scaler_for_defect_classification.joblib')
-        dump(self.model, 'model_defect_classification.joblib')
-
+        # Export the scaler and model to the specified directory
+        scaler_export_path = os.path.join(dump_directory, 'scaler_for_defect_classification.joblib')
+        model_export_path = os.path.join(dump_directory, 'model_defect_classification.joblib')
+        dump(scaler, scaler_export_path)
+        dump(self.model, model_export_path)
    
     def train_Gridsearch(self):
         '''

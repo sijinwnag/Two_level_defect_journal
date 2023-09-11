@@ -335,24 +335,24 @@ optind = np.argmin(residuallist)
 plt.figure(num='Resudual', facecolor='white', figsize=figuresize)
 im1 = plt.imshow(residuallistr,extent =extent, aspect='equal', origin = 'lower',norm=colors.LogNorm())
 cb = plt.colorbar(im1, label='Fitting residual')
-cb.set_label(label='Fitting residual',fontsize=xlabel_size, font='Cambria')
+cb.set_label(label='Fitting residual',fontsize=xlabel_size, font=font_family)
 cb.ax.tick_params(labelsize=axis_numbersize)
 print(Etlist[optind][1])
 print(Etlist[optind][0])
 plt.plot([-0.303], [0.144], 'w*', markersize=10)
 plt.plot(Etlist[optind][1],Etlist[optind][0],'ro')
 # plt.plot([-0.3],[0.15],'r*', markersize=10)
-# plt.annotate('True value', (-0.3, 0.18), color='red', fontsize=15, font='Cambria')
-plt.annotate('ML prediction', (-0.4, 0.05), color='white', fontsize=text_size, font='Cambria')
-plt.annotate('Lowest residual', (-0.3, 0.18), color='red', fontsize=text_size, font='Cambria')
-plt.xlabel('$Et1$', fontsize=xlabel_size, fontname='Cambria')
-plt.ylabel('$Et2$', fontsize=xlabel_size, fontname='Cambria')
-plt.xlabel(r'$E_{\rm t2}-E_{\rm i} \/\/ \rm (eV)$', fontsize=22, fontname='Cambria')
-plt.ylabel(r'$E_{\rm t1}-E_{\rm i} \/\/ \rm (eV)$', fontsize=22, fontname='Cambria')
+# plt.annotate('True value', (-0.3, 0.18), color='red', fontsize=15, font=font_family)
+plt.annotate('ML prediction', (-0.4, 0.05), color='white', fontsize=text_size, font=font_family)
+plt.annotate('Lowest residual', (-0.3, 0.18), color='red', fontsize=text_size, font=font_family)
+plt.xlabel('$Et1$', fontsize=xlabel_size, fontname=font_family)
+plt.ylabel('$Et2$', fontsize=xlabel_size, fontname=font_family)
+plt.xlabel(r'$E_{\rm t2}-E_{\rm i} \/\/ \rm (eV)$', fontsize=22, fontname=font_family)
+plt.ylabel(r'$E_{\rm t1}-E_{\rm i} \/\/ \rm (eV)$', fontsize=22, fontname=font_family)
 # params = {'text.usetex': False, 'mathtext.fontset': 'stixsans'}
 # plt.rcParams.update(params)
-plt.xticks(fontsize=axis_numbersize, font='Cambria')
-plt.yticks(fontsize=axis_numbersize, font='Cambria')
+plt.xticks(fontsize=axis_numbersize, font=font_family)
+plt.yticks(fontsize=axis_numbersize, font=font_family)
 plt.savefig('residual map low res' + '.png', bbox_inches='tight')
 plt.show()
 
@@ -558,16 +558,18 @@ k2list = [path_k2_11_p, path_k2_10_p, path_k2_01_p, path_k2_00_p]
 # # # # plt.title('$E_{t1}$', fontsize=25)
 # # # plt.title('True vs prediction plot', fontsize=20)
 # # plt.legend(loc=4, framealpha=0.1, fontsize=20)
-# plt.xticks(fontsize=15, font='Cambria')
-# plt.yticks(fontsize=15, font='Cambria')
+# plt.xticks(fontsize=15, font=font_family)
+# plt.yticks(fontsize=15, font=font_family)
 # plt.savefig(fname=str('Et1') + '.png', bbox_inches='tight')
 # plt.show()
 
+# define the font family
+font_family = 'Calibri'
 
 filetnamelist = ['Et1', 'Et2', 'Sn1', 'Sn2', 'Sp1', 'Sp2', 'k1', 'k2']
-title1 = r'E$_{\rm t1}$' + ' (eV)'
+title1 = r'$\mathit{E}_{\mathrm{t1}}$' + ' (eV)'
 # title1 = r'Primary T$_{\rm eff}$'
-title2 = r'E$_{\rm t2}$' + ' (eV)'
+title2 = r'$\mathit{E}_{\mathrm{t2}}$' + ' (eV)'
 title3 = r'log$(\sigma_{\rm n1})$ ' + r'(cm$^{-3}$)'
 title4 = r'log$(\sigma_{\rm n2})$ ' + r'(cm$^{-3}$)'
 title5 = r'log$(\sigma_{\rm p1})$ ' + r'(cm$^{-3}$)'
@@ -621,9 +623,11 @@ for task in [Et1list, Et2list, Sn1list, Sn2list, Sp1list, Sp2list, k1list, k2lis
     predictionlist = predictionlist[sampleindex]
 
     # calculate evaluation matrix.
-    R2 = r2_score(Truelist, predictionlist)
+    R2 = round(r2_score(Truelist, predictionlist), 3)
+    R2 = f'{R2:.3f}'
     # print(R2)
-    MAE = mean_absolute_error(Truelist, predictionlist)
+    MAE = round(mean_absolute_error(Truelist, predictionlist), 3)
+    MAE = f'{MAE:.3f}'
     mape = np.mean(np.abs((np.array(Truelist) - np.array(predictionlist)) / Truelist)) * 100
     # print(MAE)
     print(mape)
@@ -633,17 +637,17 @@ for task in [Et1list, Et2list, Sn1list, Sn2list, Sp1list, Sp2list, k1list, k2lis
     ax = fig.add_subplot(111)
     true = Truelist
     prediction = predictionlist
-    plt.scatter(true, prediction, label=('R$^2$' + '=' + str(round(R2, 3))) + ('; MAE' + '=' + str(round(MAE, 3))), alpha=0.01, color='green')
+    plt.scatter(true, prediction, label=('R$^2$' + '=' + str(R2)) + ('; MAE' + '=' + str(MAE)), alpha=0.01, color='green')
     # plt.plot(true, true, color='r')
-    plt.xlabel(xlabels[counter], fontsize=22, font='Cambria')
-    plt.ylabel(ylabels[counter], fontsize=22, font='Cambria')
+    plt.xlabel(xlabels[counter], fontsize=22, font=font_family)
+    plt.ylabel(ylabels[counter], fontsize=22, font=font_family)
     ax.set_aspect("equal")
     # # plt.title(str(titlelist[counter]), fontsize=25)
-    font = font_manager.FontProperties(family='Cambria', style='normal', size=20)
+    font = font_manager.FontProperties(family=font_family, style='normal', size=20)
     plt.legend(loc=4, framealpha=0.1, prop=font)
-    plt.xticks(fontsize=22, font='Cambria')
-    plt.yticks(fontsize=22, font='Cambria')
-    # plt.text(0.05, 0.9, textlist[counter], transform=ax.transAxes, fontsize=22, font='Cambria')
+    plt.xticks(fontsize=22, font=font_family)
+    plt.yticks(fontsize=22, font=font_family)
+    # plt.text(0.05, 0.9, textlist[counter], transform=ax.transAxes, fontsize=22, font=font_family)
     if filename[0] == 'S':
         plt.xticks(range(-17, -12))
         plt.yticks(range(-17, -12))
@@ -665,15 +669,15 @@ for task in [Et1list, Et2list, Sn1list, Sn2list, Sp1list, Sp2list, k1list, k2lis
     # prediction = predictionlist
     # plt.scatter(true, prediction, label=('R$^2$' + '=' + str(round(R2, 3))) + ('; MAE' + '=' + str(round(MAE, 3))), alpha=0.01, color='green')
     # plt.plot(true, true, color='r')
-    # plt.xlabel(xlabels[counter], fontsize=22, font='Cambria')
-    # plt.ylabel(ylabels[counter], fontsize=22, font='Cambria')
+    # plt.xlabel(xlabels[counter], fontsize=22, font=font_family)
+    # plt.ylabel(ylabels[counter], fontsize=22, font=font_family)
     # ax.set_aspect("equal")
     # # # plt.text(0, 0.5, alphabet[k], fontsize=20)
     # # # # plt.title(str(titlelist[counter]), fontsize=25)
-    # font = font_manager.FontProperties(family='Cambria', style='normal', size=20)
+    # font = font_manager.FontProperties(family=font_family, style='normal', size=20)
     # plt.legend(loc=4, framealpha=0.1, prop=font)
-    # plt.xticks(fontsize=15, font='Cambria')
-    # plt.yticks(fontsize=15, font='Cambria')
+    # plt.xticks(fontsize=15, font=font_family)
+    # plt.yticks(fontsize=15, font=font_family)
     # if filename[0] == 'S':
     #     # print(filename)
     #     plt.xticks(range(-17, -12))

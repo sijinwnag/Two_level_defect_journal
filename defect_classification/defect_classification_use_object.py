@@ -8,7 +8,7 @@ defect_classifier = defect_classifier()
 defect_classifier.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\training_data\80k\2022-09-15-09-00-01_advanced example - multi_level_L_datasetID_0.csv"
 
 # train the model
-defect_classifier.train_export_model()
+defect_classifier.train_export_model(use_PCA=True)
 
 # %% testing
 # define the object
