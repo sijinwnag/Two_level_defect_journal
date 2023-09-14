@@ -142,6 +142,7 @@ ax1.plot(data_04_n01.iloc[:, 0], data_04_n01.iloc[:, 1]*1e6, label='$E_{t1}$=0.4
 # Set the x-axis to a logarithmic scale
 ax1.set_xscale('log')
 
+
 # Set labels and ticks
 ax1.set_xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
 ax1.set_ylabel('Lifetime (µs)', fontsize=ylabel_size)
@@ -498,30 +499,10 @@ Sp2list = [path_Sp2_11_p, path_Sp2_10_p, path_Sp2_01_p, path_Sp2_00_p]
 k1list = [path_k1_11_p, path_k1_10_p, path_k1_01_p, path_k1_00_p]
 k2list = [path_k2_11_p, path_k2_10_p, path_k2_01_p, path_k2_00_p]
 
-
-# # Plotting perfect prediction sinario
-# fig= plt.figure(facecolor='white', figsize=(6, 6))
-# ax = fig.add_subplot(111)
-# true = Truelist
-# prediction = predictionlist
-# plt.scatter(true, prediction, label=('$R^2$' + '=' + str(round(R2, 3))) + ('; MAE' + '=' + str(round(MAE, 3))), alpha=0, color='green')
-# plt.plot(true, true, color='r')
-# plt.xlabel('True', fontsize=20)
-# plt.ylabel('Prediction', fontsize=20)
-# ax.set_aspect("equal")
-# # # plt.text(0, 0.5, alphabet[k], fontsize=20)
-# # # # plt.title('$E_{t1}$', fontsize=25)
-# # # plt.title('True vs prediction plot', fontsize=20)
-# # plt.legend(loc=4, framealpha=0.1, fontsize=20)
-# plt.xticks(fontsize=15, font=font_family)
-# plt.yticks(fontsize=15, font=font_family)
-# plt.savefig(fname=str('Et1') + '.png', bbox_inches='tight')
-# plt.show()
-
 # define the font family
 font_family = 'Calibri'
 
-filetnamelist = ['Et1', 'Et2', 'Sn1', 'Sn2', 'Sp1', 'Sp2', 'k1', 'k2']
+filetnamelist = ['Et1', 'Sn1', 'Sp1', 'Et2', 'Sn2', 'Sp2']
 title1 = r'$\mathit{E}_{\mathrm{t1}}$' + ' (eV)'
 # title1 = r'Primary T$_{\rm eff}$'
 title2 = r'$\mathit{E}_{\mathrm{t2}}$' + ' (eV)'
@@ -532,7 +513,7 @@ title6 = r'log$(\sigma_{\rm p2})$ ' + r'(cm$^{-3}$)'
 title7 = 'log$(k_1)$'
 title8 = 'log$(k_2)$'
 textlist = ['(a)', '(d)', '(b)', '(e)', '(c)', '(f)', '(g)', '(h)']
-titlelist = [title1, title2, title3, title4, title5, title6, title7, title8]
+titlelist = [title1, title3, title5, title2, title4, title6]
 xlabels = []
 ylabels = []
 titlelist2 = []
@@ -617,30 +598,222 @@ for task in [Et1list, Sn1list, Sp1list, Et2list, Sn2list, Sp2list]: # k1list, k2
     plt.savefig(fname=str(filetnamelist[counter]) + 'without center line' + '.png', bbox_inches='tight')
     plt.show()
 
-    # # plotting with centre line.
-    # fig= plt.figure(facecolor='white', figsize=(5, 5))
-    # ax = fig.add_subplot(111)
-    # true = Truelist
-    # prediction = predictionlist
-    # plt.scatter(true, prediction, label=('R$^2$' + '=' + str(round(R2, 3))) + ('; MAE' + '=' + str(round(MAE, 3))), alpha=0.01, color='green')
+    counter = counter + 1
+
+# %% The figure 5 using subplot
+
+# Set 11 p type.
+path_Et1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\Et_eV_1set11_800k.csv'
+path_Et2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\Et_eV_2set11_800k.csv'
+path_Sn1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSn_1set11_800k.csv'
+path_Sn2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSn_2set11_800k.csv'
+path_Sp1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSp_1set11_800k.csv'
+path_Sp2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\trial2\logSp_2set11_800k.csv'
+path_k1_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\logk_1set11_800k.csv'
+path_k2_11_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\p\set11_800k\logk_2set11_800k.csv'
+# Set 11 n type.
+path_Et1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\Et_eV_1set11_800k_n.csv'
+path_Et2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\Et_eV_2set11_800k_n.csv'
+path_Sn1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSn_1set11_800k_n.csv'
+path_Sn2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSn_2set11_800k_n.csv'
+path_Sp1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSp_1set11_800k_n.csv'
+path_Sp2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logSp_2set11_800k_n.csv'
+path_k1_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logk_1set11_800k_n.csv'
+path_k2_11_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set11\n\set11_800k\set_11_n\logk_2set11_800k_n.csv'
+# Set 10 p type.
+path_Et1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\Et_eV_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Et2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\Et_eV_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sn1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSn_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sn2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSn_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sp1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSp_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_Sp2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\Re__ML_finish_training\logSp_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_k1_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\logk_12022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+path_k2_10_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\p\logk_22022-10-28-03-08-13_advanced example - multi_level_L_datasetID_0.csv'
+# Set 10 n type.
+path_Et1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\Et_eV_1set10_800k_n.csv'
+path_Et2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\Et_eV_2set10_800k_n.csv'
+path_Sn1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSn_1set10_800k_n.csv'
+path_Sn2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSn_2set10_800k_n.csv'
+path_Sp1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSp_1set10_800k_n.csv'
+path_Sp2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\Re__\logSp_2set10_800k_n.csv'
+path_k1_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\logk_1set10_800k_n.csv'
+path_k2_10_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set10\n\800k\logk_2set10_800k_n.csv'
+# Set 01 p type.
+path_Et1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\Et_eV_1set01_800k_p.csv'
+path_Et2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\Et_eV_2set01_800k_p.csv'
+path_k1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logk_1set01_800k_p.csv'
+path_k2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logk_2set01_800k_p.csv'
+path_Sn1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSn_1set01_800k_p.csv'
+path_Sn2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSn_2set01_800k_p.csv'
+path_Sp1_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSp_1set01_800k_p.csv'
+path_Sp2_01_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\p\800k\set01_p\set01_p\logSp_2set01_800k_p.csv'
+# Set 01 n type.
+path_Et1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\Et_eV_1set01_800k_n.csv'
+path_Et2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\Et_eV_2set01_800k_n.csv'
+path_Sn1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSn_1set01_800k_n.csv'
+path_Sn2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSn_2set01_800k_n.csv'
+path_Sp1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSp_1set01_800k_n.csv'
+path_Sp2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\set01_n_800k\logSp_2set01_800k_n.csv'
+path_k1_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\logk_1set01_800k_n.csv'
+path_k2_01_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set01\n\logk_2set01_800k_n.csv'
+# Set 00 p type.
+path_Et1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\Et_eV_1set00_800k.csv'
+path_Et2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\Et_eV_2set00_800k.csv'
+path_k1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logk_1set00_800k.csv'
+path_k2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logk_2set00_800k.csv'
+path_Sn1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSn_1set00_800k.csv'
+path_Sn2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSn_2set00_800k.csv'
+path_Sp1_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSp_1set00_800k.csv'
+path_Sp2_00_p = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\p\800k\set00_p\logSp_2set00_800k.csv'
+# Set 00 n type.
+path_Et1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\Et_eV_1set00_n_800k.csv'
+path_Et2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\Et_eV_2set00_n_800k.csv'
+path_k1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logk_1set00_n_800k.csv'
+path_k2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logk_2set00_n_800k.csv'
+path_Sn1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSn_1set00_n_800k.csv'
+path_Sn2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSn_2set00_n_800k.csv'
+path_Sp1_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSp_1set00_n_800k.csv'
+path_Sp2_00_n = r'C:\Users\sijin wang\Desktop\research\thesiswork\ML_results\withoutEt1larger\set00\n\800k\Re__\logSp_2set00_n_800k.csv'
+# put everything in a list:
+# both n and p.
+# Et1list = [path_Et1_11_p, path_Et1_11_n, path_Et1_10_p, path_Et1_10_n, path_Et1_01_p, path_Et1_01_n, path_Et1_00_p, path_Et1_00_n]
+# Et2list = [path_Et2_11_p, path_Et2_11_n, path_Et2_10_p, path_Et2_10_n, path_Et2_01_p, path_Et2_01_n, path_Et2_00_p, path_Et2_00_n]
+# Sn1list = [path_Sn1_11_p, path_Sn1_11_n, path_Sn1_10_p, path_Sn1_10_n, path_Sn1_01_p, path_Sn1_01_n, path_Sn1_00_p, path_Sn1_00_n]
+# Sn2list = [path_Sn2_11_p, path_Sn2_11_n, path_Sn2_10_p, path_Sn2_10_n, path_Sn2_01_p, path_Sn2_01_n, path_Sn2_00_p, path_Sn2_00_n]
+# Sp1list = [path_Sp1_11_p, path_Sp1_11_n, path_Sp1_10_p, path_Sp1_10_n, path_Sp1_01_p, path_Sp1_01_n, path_Sp1_00_p, path_Sp1_00_n]
+# Sp2list = [path_Sp2_11_p, path_Sp2_11_n, path_Sp2_10_p, path_Sp2_10_n, path_Sp2_01_p, path_Sp2_01_n, path_Sp2_00_p, path_Sp2_00_n]
+# p.
+Et1list = [path_Et1_11_p, path_Et1_10_p, path_Et1_01_p, path_Et1_00_p]
+Et2list = [path_Et2_11_p, path_Et2_10_p, path_Et2_01_p, path_Et2_00_p]
+Sn1list = [path_Sn1_11_p,  path_Sn1_10_p,path_Sn1_01_p, path_Sn1_00_p]
+Sn2list = [path_Sn2_11_p, path_Sn2_10_p, path_Sn2_01_p, path_Sn2_00_p]
+Sp1list = [path_Sp1_11_p, path_Sp1_10_p, path_Sp1_01_p, path_Sp1_00_p]
+Sp2list = [path_Sp2_11_p, path_Sp2_10_p, path_Sp2_01_p, path_Sp2_00_p]
+k1list = [path_k1_11_p, path_k1_10_p, path_k1_01_p, path_k1_00_p]
+k2list = [path_k2_11_p, path_k2_10_p, path_k2_01_p, path_k2_00_p]
+
+# define the font family
+font_family = 'Calibri'
+
+filetnamelist = ['Et1', 'Sn1', 'Sp1', 'Et2', 'Sn2', 'Sp2']
+title1 = r'$\mathit{E}_{\mathrm{t1}}$' + ' (eV)'
+# title1 = r'Primary T$_{\rm eff}$'
+title2 = r'$\mathit{E}_{\mathrm{t2}}$' + ' (eV)'
+title3 = r'log$(\sigma_{\rm n1})$ ' + r'(cm$^{-3}$)'
+title4 = r'log$(\sigma_{\rm n2})$ ' + r'(cm$^{-3}$)'
+title5 = r'log$(\sigma_{\rm p1})$ ' + r'(cm$^{-3}$)'
+title6 = r'log$(\sigma_{\rm p2})$ ' + r'(cm$^{-3}$)'
+title7 = 'log$(k_1)$'
+title8 = 'log$(k_2)$'
+textlist = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)', '(g)', '(h)']
+titlelist = [title1, title3, title5, title2, title4, title6]
+xlabels = []
+ylabels = []
+titlelist2 = []
+for title in titlelist:
+    xlabels.append('True ' + title)
+    ylabels.append('Predicted ' + title)
+
+title1 = r'E$_{\rm t1}$' + ' (eV)'
+title2 = r'E$_{t2}$' + ' (eV)'
+title3 = 'log$(\sigma_{n1})$ ' + r'(cm$^{-3}$)'
+title4 = 'log$(\sigma_{n2})$ ' + r'(cm$^{-3}$)'
+title5 = 'log$(\sigma_{p1})$ ' + r'(cm$^{-3}$)'
+title6 = 'log$(\sigma_{p2})$ ' + r'(cm$^{-3}$)'
+# title7 = 'log(k$_1)$'
+# title8 = 'log(k$_2)$'
+titlelist2 = [title1, title3, title5, title2, title4, title6] # , title7, title8]
+titlelist = []
+for title in titlelist2:
+    titlelist.append('RF ' + title + ' prediction')
+
+counter = 0
+
+# create subplots grid
+# fig, axes = plt.subplots(2, 3, figsize=(15, 10))
+# fig.subplots_adjust(hspace=0.4)
+
+# define the subplots index
+subplot_index = []
+
+# create the figure
+fig= plt.figure(figsize=(20, 20))
+plt.subplots_adjust(wspace=0.5, hspace=-0.4)
+
+for task in [Et1list, Sn1list, Sp1list, Et2list, Sn2list, Sp2list]: # k1list, k2list]:
+    # extract the dataset.
+    filename = filetnamelist[counter]
+    Truelist = []
+    predictionlist = []
+    for path in task:
+        data = pd.read_csv(path)
+        # the second column is true value:
+        true = np.array(data)[:, 1]
+        Truelist.append(true)
+        # the third column is the prediction value:
+        prediction = np.array(data)[:, 2]
+        predictionlist.append(prediction)
+
+    # flattern the list into 1d array.
+    Truelist = np.array(Truelist).flatten()
+    predictionlist = np.array(predictionlist).flatten()
+
+    # subsampling.
+    sampleindex = np.random.randint(0, np.shape(Truelist)[0], 10000)
+    Truelist = Truelist[sampleindex]
+    predictionlist = predictionlist[sampleindex]
+
+    # calculate evaluation matrix.
+    R2 = round(r2_score(Truelist, predictionlist), 3)
+    R2 = f'{R2:.3f}'
+    # print(R2)
+    MAE = round(mean_absolute_error(Truelist, predictionlist), 3)
+    MAE = f'{MAE:.3f}'
+    mape = np.mean(np.abs((np.array(Truelist) - np.array(predictionlist)) / Truelist)) * 100
+    # print(MAE)
+    print(mape)
+
+    # plotting without centre line.
+    subplot_str = "2" + "3" + str(counter + 1)
+    ax = fig.add_subplot(int(subplot_str))
+    true = Truelist
+    prediction = predictionlist
+    ax.scatter(true, prediction, label=('R$^2$' + '=' + str(R2)) + ('; MAE' + '=' + str(MAE)), alpha=0.01, color='green')
     # plt.plot(true, true, color='r')
-    # plt.xlabel(xlabels[counter], fontsize=22, font=font_family)
-    # plt.ylabel(ylabels[counter], fontsize=22, font=font_family)
-    # ax.set_aspect("equal")
-    # # # plt.text(0, 0.5, alphabet[k], fontsize=20)
-    # # # # plt.title(str(titlelist[counter]), fontsize=25)
-    # font = font_manager.FontProperties(family=font_family, style='normal', size=20)
-    # plt.legend(loc=4, framealpha=0.1, prop=font)
-    # plt.xticks(fontsize=15, font=font_family)
-    # plt.yticks(fontsize=15, font=font_family)
-    # if filename[0] == 'S':
-    #     # print(filename)
-    #     plt.xticks(range(-17, -12))
-    #     plt.yticks(range(-17, -12))
-    # if filename[0] == 'E' and len(task)>1:
-    #     plt.xticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
-    #     plt.yticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
-    # plt.savefig(fname=str(filetnamelist[counter]) + 'with center line' + '.png', bbox_inches='tight')
-    # plt.show()
+    plt.xlabel(xlabels[counter], fontsize=22, font=font_family)
+    plt.ylabel(ylabels[counter], fontsize=22, font=font_family)
+    ax.set_aspect("equal")
+    # # plt.title(str(titlelist[counter]), fontsize=25)
+    font = font_manager.FontProperties(family=font_family, style='normal', size=20)
+    plt.legend(loc=4, framealpha=0.1, prop=font)
+    plt.xticks(fontsize=22, font=font_family)
+    plt.yticks(fontsize=22, font=font_family)
+    plt.text(0.05, 0.9, textlist[counter], transform=ax.transAxes, fontsize=22, font=font_family)
+    if filename[0] == 'S':
+        plt.xticks(range(-17, -12))
+        plt.yticks(range(-17, -12))
+    if filename[0] == 'E':
+        plt.xticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
+        plt.yticks([-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6])
+        # plt.xticks([0, 0.2, 0.4, 0.6])
+        # plt.yticks([0, 0.2, 0.4, 0.6])
+        # plt.xticks([-0.6, -0.4, -0.2, 0])
+        # plt.yticks([-0.6, -0.4, -0.2, 0])
+
+    # plt.savefig(fname=str(filetnamelist[counter]) + 'without center line' + '.png', bbox_inches='tight')
+
 
     counter = counter + 1
+
+plt.show()
+
+# %%
+fig = plt.figure()
+fig.add_subplot(231)
+plt.scatter([1, 2, 3], [2, 4, 2])
+fig.add_subplot(232)
+fig.add_subplot(233)
+fig.add_subplot(234)
+fig.add_subplot(235)
+fig.add_subplot(236)
+plt.show()
