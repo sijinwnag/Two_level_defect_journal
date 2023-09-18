@@ -9,7 +9,6 @@ defect_classifier.training_path = r"D:\study\thesis_data_storage\journal\defect_
 
 # train the model
 defect_classifier.train_export_model(use_PCA=True)
-
 # %% testing
 # define the object
 defect_classifier = defect_classifier()
