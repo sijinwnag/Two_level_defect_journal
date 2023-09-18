@@ -31,6 +31,8 @@ chart_number_size = 25
 chart_number_position = (0.05, 0.9)
 fonttype = "Arial"
 legend_size=15
+
+
 # %% The Figure 2 in Journal
 # define the path
 path1 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_2_mis_defect_classification\Et1_05_Et2_051_two_level.csv"
@@ -65,6 +67,8 @@ plt.xticks([0.8, 0.9, 1], fontsize=xtick_size)
 plt.yticks([1.5, 1.7], fontsize=ytick_size)
 # plt.ylim((1e-5, 1e3))
 plt.show()
+
+
 # %% The Figure 3 in Journal
 # define the path
 path1 = r"D:\study\thesis_data_storage\journal\defect_classification\lifetime_curve_plotting\two_levels.csv"
@@ -100,8 +104,10 @@ plt.plot((one_level.iloc[:2, 0])*1e-12, (one_level.iloc[:2, 3]-1e-3)*1e6, label=
 plt.xticks([1.0, 1.1, 1.2], fontsize=xtick_size)
 plt.yticks([3.4, 3.5, 3.6], fontsize=ytick_size)
 plt.show()
+
+
 # %% Figure 4 in Journal
-# define the path
+# define the path for My dell laptop
 path_04_01 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_4_mis_set_classification\Et_04_01.csv"
 path_04_n01 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_4_mis_set_classification\Et_04_n01.csv"
 path_04_005 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_4_mis_set_classification\Et_04_005.csv"
@@ -221,9 +227,13 @@ plt.show()  # Show the plot
 
 # %% Figure 6 of the journal article
 
-# define the path
-path_045_040 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
-path_045_050 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
+# define the path for dell Laptop
+# path_045_040 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
+# path_045_050 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
+
+# define the path for office PC
+path_045_040 = r"G:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
+path_045_050 = r"G:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
 
 # import the data
 data_045_040 = pd.read_csv(path_045_040)
