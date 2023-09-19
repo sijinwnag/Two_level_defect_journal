@@ -1,6 +1,6 @@
 # %% imports
 import matplotlib.pyplot as plt
-# import matplotlib
+import matplotlib
 # matplotlib.rcParams['text.usetex'] = True
 import numpy as np
 # from IPython.display import display, Math
@@ -131,10 +131,10 @@ data_n04_0 = pd.read_csv(path_n04_0)
 data_n04_n005 = pd.read_csv(path_n04_n005)
 
 # Set font sizes
-xlabel_size = 14
-ylabel_size = 14
-xtick_size = 12
-ytick_size = 12
+xlabel_size = 18
+ylabel_size = 18
+xtick_size = 18
+ytick_size = 18
 
 # Define colors for the plots
 cmap = cm.get_cmap('coolwarm')
