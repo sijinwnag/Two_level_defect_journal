@@ -236,23 +236,23 @@ plt.show()
 # %% Figure 6 of the journal article
 
 # define the path for dell Laptop
-# path_045_040 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
-# path_045_050 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
+path_045_040 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
+path_045_050 = r"D:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
 
 # define the path for office PC
-path_045_040 = r"G:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
-path_045_050 = r"G:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
+# path_045_040 = r"G:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_040.csv"
+# path_045_050 = r"G:\study\thesis_data_storage\journal\Figure_plotting_data\Fig_6_regression\Fig_6a\Et_045_050.csv"
 
 # import the data
 data_045_040 = pd.read_csv(path_045_040)
 data_045_050 = pd.read_csv(path_045_050)
 
 # Plot the data
-fig, axis = plt.subplots(1, 2, figsize=(15, 5))
+fig, axis = plt.subplots(1, 2, figsize=(20, 5))
 
 # define the parameters
 colour_number = 100
-cmap = cm.get_cmap('viridis')  # Get the YlGn color map
+cmap = cm.get_cmap('coolwarm')  # Get the YlGn color map
 colors = cmap(np.linspace(0, 1, colour_number))  # Generate five colors from the color map
 et2_values = [0.45, 0.50, 0.55]  # Et2 values for color scaling
 
@@ -300,7 +300,7 @@ plt.subplots_adjust(wspace=0.6)
 # Plot B
 # define the parameters for plot B
 colour_number_plot_b = 10000
-cmap_b = cm.get_cmap('viridis')
+cmap_b = cm.get_cmap('coolwarm')
 colors_b = cmap_b(np.linspace(0, 1, colour_number_plot_b))
 et2_values_b = [0.45, 0.50, 0.55]
 
@@ -732,15 +732,4 @@ for task in [Et1list, Sn1list, Sp1list, Et2list, Sn2list, Sp2list]: # k1list, k2
 
     counter = counter + 1
 
-plt.show()
-
-# %%
-fig = plt.figure()
-fig.add_subplot(231)
-plt.scatter([1, 2, 3], [2, 4, 2])
-fig.add_subplot(232)
-fig.add_subplot(233)
-fig.add_subplot(234)
-fig.add_subplot(235)
-fig.add_subplot(236)
 plt.show()
