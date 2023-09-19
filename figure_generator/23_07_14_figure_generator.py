@@ -11,6 +11,8 @@ import matplotlib.cm as cm
 from matplotlib.ticker import MultipleLocator
 import matplotlib.colors as mcolors
 from matplotlib.ticker import MaxNLocator
+from matplotlib.ticker import FuncFormatter
+
 '''
 Image standard:
 fontsize = 22;
@@ -184,46 +186,52 @@ plt.show()
 
 
 # %% Plot the zoom in data for figure 4
-plt.figure(figsize=(10, 6))  # Set the figure size
 
 colour_number = 1200
 starting_index = 33
 ending_index = 35
-cmap = cm.get_cmap('coolwarm')  # Get the YlGn color map
-colors = cmap(np.linspace(0, 1, colour_number))  # Generate a number of colors from the color map
-et2_values = [0.1, 0.05, 0, -0.05, -0.1]  # Et2 values for color scaling
+colors = cm.get_cmap('coolwarm')(np.linspace(0, 1, colour_number))
+ytick_size = 28
+
+center_x_value = np.mean([data_04_01.iloc[starting_index:ending_index, 0].values[-1], data_04_01.iloc[starting_index:ending_index, 0].values[0]])
+center_y_value = np.mean([data_04_01.iloc[starting_index:ending_index, 1].values[-1], data_04_n01.iloc[starting_index:ending_index, 1].values[-1]]) * 1e6
+
+def custom_x_formatter_superscript(x, _):
+    return f"{x/1e12:.4g} ×10¹²"
+
+def custom_y_formatter(y, _):
+    return f"{y:.3f}"
+
+plt.figure(figsize=(10, 6))
 
 # Plot the original lines
-plt.plot(data_04_01.iloc[starting_index:ending_index, 0], data_04_01.iloc[starting_index:ending_index, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=0.1 eV', color=colors[0])
-plt.plot(data_04_n01.iloc[starting_index:ending_index, 0], data_04_n01.iloc[starting_index:ending_index, 1]*1e6, label='$E_{t1}$=0.4 eV; $E_{t2}$=-0.1 eV', color=colors[-1])
+plt.plot(data_04_01.iloc[starting_index:ending_index, 0], data_04_01.iloc[starting_index:ending_index, 1]*1e6, color=colors[0])
+plt.plot(data_04_n01.iloc[starting_index:ending_index, 0], data_04_n01.iloc[starting_index:ending_index, 1]*1e6, color=colors[-1])
 
 # Equally fill the space between the two lines with 10 more lines that are parallel
 num_lines = colour_number - 2
 for i in range(1, num_lines + 1):
-    alpha_value = i / (num_lines + 1)  # Determine the alpha value for color and transparency
+    alpha_value = i / (num_lines + 1)
     y_values = (1 - alpha_value) * data_04_01.iloc[starting_index:ending_index, 1]*1e6 + alpha_value * data_04_n01.iloc[starting_index:ending_index, 1]*1e6
-    plt.plot(data_04_01.iloc[starting_index:ending_index, 0], y_values, color=colors[i+1], alpha=alpha_value)
+    current_color_index = int(i * (len(colors) - 1) / num_lines)
+    plt.plot(data_04_01.iloc[starting_index:ending_index, 0], y_values, color=colors[current_color_index], alpha=alpha_value)
 
-# Axis setting
-# plt.xlabel(r'Excess carrier concentration ($\rm cm^{-3}$)', fontsize=xlabel_size)
-# plt.ylabel('Lifetime (µs)', fontsize=ylabel_size)
-
-# Set the x-axis to show only 3 ticks
-num_ticks = 3
-plt.gca().xaxis.set_major_locator(MaxNLocator(num_ticks))
+# Set x-axis and y-axis to show a tick at the center and use custom formatter
+plt.gca().xaxis.set_major_locator(plt.FixedLocator([center_x_value]))
+plt.gca().yaxis.set_major_locator(plt.FixedLocator([center_y_value]))
+plt.gca().xaxis.set_major_formatter(FuncFormatter(custom_x_formatter_superscript))
+plt.gca().yaxis.set_major_formatter(FuncFormatter(custom_y_formatter))
 plt.tick_params(axis='both', labelsize=ytick_size*2)
 
-# Add colorbar
-sm = cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(min(et2_values), max(et2_values)))
-sm.set_array([])
-cbar = plt.colorbar(sm)
-cbar.ax.yaxis.set_major_locator(MultipleLocator(0.2))  # Set the major locator for ticks
-cbar.set_ticks([-0.1, 0, 0.1])  # Set the tick positions
-cbar.set_ticklabels([-0.1, 0, 0.1])  # Set the tick labels
-cbar.set_label('$E_{t2}$ values (eV)', fontsize=ytick_size)
-cbar.ax.tick_params(labelsize=ytick_size)
+# Remove the grid
+plt.grid(False)
+plt.ylabel('')
 
-plt.show()  # Show the plot
+# Add border to the plot
+for spine in plt.gca().spines.values():
+    spine.set_visible(True)
+
+plt.show()
 
 # %% Figure 6 of the journal article
 
