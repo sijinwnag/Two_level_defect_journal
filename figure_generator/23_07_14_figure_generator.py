@@ -183,7 +183,7 @@ cbar.ax.tick_params(labelsize=ytick_size)
 plt.show()
 
 
-# %% Plot the zoom in data
+# %% Plot the zoom in data for figure 4
 plt.figure(figsize=(10, 6))  # Set the figure size
 
 colour_number = 1200
