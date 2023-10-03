@@ -49,7 +49,8 @@ simulator.mixture_simulate()
 
 # %% Simulate two-level-lifetime only
 simulator = two_level_lifetime_generator()
-simulator.PARAMETERS['n_defects']=800
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects']= 1
 # update the save directory
 simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # update Et range
@@ -60,5 +61,13 @@ simulator.PARAM['Et_max_2'] = 0.55
 # simulate the data
 simulator.two_level_simulate()
 
+# %% Simulate the Yan BO lifetime
+simulator = two_level_lifetime_generator()
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects']= 1
+# update the save directory
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.two_level_simulate_BO()
 # %%
 simulator.email_reminder()
