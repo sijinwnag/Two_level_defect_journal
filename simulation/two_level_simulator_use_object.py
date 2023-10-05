@@ -64,10 +64,31 @@ simulator.two_level_simulate()
 # %% Simulate the Yan BO lifetime
 simulator = two_level_lifetime_generator()
 # define the number of defect to simulate
-simulator.PARAMETERS['n_defects']= 1
+simulator.PARAMETERS['n_defects'] = 1
 # update the save directory
 simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # simualte the data
 simulator.two_level_simulate_BO()
+
+# %% Simulate training dataset n 303K and p 303 K
+simulator = two_level_lifetime_generator()
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects'] = 8000
+# update the save directory
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.BO_training_pn_303K(emailme=True)
+
+# %% Interpolate hte expeirmental data
+simulator = two_level_lifetime_generator()
+# interpolate the data
+simulator.experimental_data_interpolator()
+
+# export the data
+# update the save directory
+simulator.PARAMETERS['n_defects'] = 1
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.interpolate_data_exporter()
 # %%
 simulator.email_reminder()
