@@ -43,7 +43,7 @@ class residual_map():
         #Et1list=[0]
         #Et2list=[0]
 
-        # define the real solution:
+        # define the real solution for simulation:
         self.Et2 = -0.3
         self.Et1 = 0.15
         self.se1 = 1e-14
@@ -51,6 +51,9 @@ class residual_map():
         self.se2 = self.se1/103.2
         self.sp2 = self.se2*86
         self.Nt=1e12
+
+        # define the measured experimental lifetime:
+        self.tauexp = np.array
 
     
     def residual_calculator(self):
