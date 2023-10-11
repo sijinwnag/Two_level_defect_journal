@@ -38,8 +38,8 @@ class residual_map():
         self.nxcspace = np.logspace(13,17,50)
         self.taulist=[]
 
-        self.Et1list=np.linspace(-0.55,0.55,56)
-        self.Et2list=np.linspace(-0.55,0.55,56)
+        self.Et1list=np.linspace(0,0.5,5)
+        self.Et2list=np.linspace(-0.5,0,5)
         #Et1list=[0]
         #Et2list=[0]
 
@@ -382,16 +382,44 @@ class residual_map():
                         0.00015167544798772,
                         ])
 
+    # Sah Shockley equation definition:
+    def twolevelSRH_full(nxc, Ndop, T, doptype, Nt, Et1, Et2, sigma_e1, sigma_e2, sigma_h1, sigma_h2, **kwarg):
+        kb = const.k / const.e
+        ni = NI().update(temp=T)
+        ni = ni[0]
+        ve, vh = Vel_th().update(temp=T)
+        ve = ve[0]
+        if doptype == 'p':
+            Na = Ion(temp=T).update_dopant_ionisation(
+                N_dop=Ndop, nxc=0, impurity='boron')
+            Na = Na[0]
+            Nd = 0
+        elif doptype == 'n':
+            Nd = Ion(temp=T).update_dopant_ionisation(
+                N_dop=Ndop, nxc=0, impurity='phosphorous')
+            Nd = Nd[0]
+            Na = 0
+        n0, p0 = CF.get_carriers(Na=Na, Nd=Nd, nxc=0, temp=T, ni=ni)
+        alpha_e1 = sigma_e1 * ve
+        alpha_h1 = sigma_h1 * vh
+        alpha_e2 = sigma_e2 * ve
+        alpha_h2 = sigma_h2 * vh
+        n1 = ni * np.exp(Et1 / kb / T)
+        p1 = ni * np.exp(-Et1 / kb / T)
+        n2 = ni * np.exp(Et2 / kb / T)
+        p2 = ni * np.exp(-Et2 / kb / T)
+        n = n0 + nxc
+        p = p0 + nxc
+        R = Nt * (n * p - ni**2) / (1 + ((alpha_e1 * n1 + alpha_h1 * p) / (alpha_e1 * n + alpha_h1 * p1)) + ((alpha_e2 * n + alpha_h2 * p2) / (alpha_e2 *
+                                                                                                                                        n2 + alpha_h2 * p))) * ((alpha_e1 * alpha_h1 / (alpha_e1 * n + alpha_h1 * p1)) + (alpha_e2 * alpha_h2 / (alpha_e2 * n2 + alpha_h2 * p)))
+        tau = nxc / R
+        return tau
     
+
     def residual_calculator(self):
         '''
         This function calculate the residuals
         '''
-        # check the shape of lifetime data
-        print(self.dn_p_303_8_5e14.shape)
-        print(self.tau_p_303_8_5e14.shape)
-        print(self.dn_n_303_2e15.shape)
-        print(self.tau_n_303_2e15.shape)
 
         # update the doping and Temperature lits if using experimental data:
         if not self.simulate:
@@ -429,47 +457,16 @@ class residual_map():
         kb = const.k / const.e
 
         ve300, vh300 = Vel_th().update(temp=300)
+        # store into the object
+        self.ve300 = ve300
+        self.vh300 = vh300
         ve300 = ve300[0]
-
-
-        # Sah Shockley equation definition:
-        def twolevelSRH_full(nxc, Ndop, T, doptype, Nt, Et1, Et2, sigma_e1, sigma_e2, sigma_h1, sigma_h2, **kwarg):
-            ni = NI().update(temp=T)
-            ni = ni[0]
-            ve, vh = Vel_th().update(temp=T)
-            ve = ve[0]
-            if doptype == 'p':
-                Na = Ion(temp=T).update_dopant_ionisation(
-                    N_dop=Ndop, nxc=0, impurity='boron')
-                Na = Na[0]
-                Nd = 0
-            elif doptype == 'n':
-                Nd = Ion(temp=T).update_dopant_ionisation(
-                    N_dop=Ndop, nxc=0, impurity='phosphorous')
-                Nd = Nd[0]
-                Na = 0
-            n0, p0 = CF.get_carriers(Na=Na, Nd=Nd, nxc=0, temp=T, ni=ni)
-            alpha_e1 = sigma_e1 * ve
-            alpha_h1 = sigma_h1 * vh
-            alpha_e2 = sigma_e2 * ve
-            alpha_h2 = sigma_h2 * vh
-            n1 = ni * np.exp(Et1 / kb / T)
-            p1 = ni * np.exp(-Et1 / kb / T)
-            n2 = ni * np.exp(Et2 / kb / T)
-            p2 = ni * np.exp(-Et2 / kb / T)
-            n = n0 + nxc
-            p = p0 + nxc
-            R = Nt * (n * p - ni**2) / (1 + ((alpha_e1 * n1 + alpha_h1 * p) / (alpha_e1 * n + alpha_h1 * p1)) + ((alpha_e2 * n + alpha_h2 * p2) / (alpha_e2 *
-                                                                                                                                            n2 + alpha_h2 * p))) * ((alpha_e1 * alpha_h1 / (alpha_e1 * n + alpha_h1 * p1)) + (alpha_e2 * alpha_h2 / (alpha_e2 * n2 + alpha_h2 * p)))
-            tau = nxc / R
-            return tau
-
 
         # for loop one
         for Ndop, T, doptype in zip(Doplist, Tlist, Typelist):
             if self.simulate:
                 nxc=nxcspace
-                tau = twolevelSRH_full(nxc=nxc,Ndop=Ndop,T=T,doptype=doptype, Nt=Nt, Et1=Et1, Et2=Et2,sigma_e1=se1, sigma_h1=sp1,sigma_e2=se2, sigma_h2=sp2)
+                tau = self.twolevelSRH_full(nxc=nxc,Ndop=Ndop,T=T,doptype=doptype, Nt=Nt, Et1=Et1, Et2=Et2,sigma_e1=se1, sigma_h1=sp1,sigma_e2=se2, sigma_h2=sp2)
                 nxclist.append(nxc)
                 taulist.append(tau)
             else:
@@ -477,13 +474,16 @@ class residual_map():
                     if T == 303 and Ndop == 8.5e14:
                         nxc = self.dn_p_303_8_5e14
                         tau = self.tau_p_303_8_5e14
+                        Nt = 1e12
                 elif doptype == 'n':
                     if T == 303 and Ndop == 2e15:
                         nxc = self.dn_n_303_2e15
                         tau = self.tau_n_303_2e15
+                        Nt = 1e12
                     elif T == 343 and Ndop == 2e15:
                         nxc = self.dn_p_343_2e15
                         tau = self.tau_p_343_2e15
+                        Nt = 1e12
                 nxclist.append(nxc)
                 taulist.append(tau)
 
@@ -542,11 +542,12 @@ class residual_map():
                     k2=siglist[3]
                     squareerror = 0
                     for T, nxc, ve, vh, ni, n, p, taum in zip(Tlist, nxclist, velist, vhlist, nilist, nlist, plist, taulist):
+                        # taus = self.twolevelSRH_full(nxc=nxc,Ndop=Ndop,T=T,doptype=doptype, Nt=Nt, Et1=Et1, Et2=Et2,sigma_e1=taun1, sigma_h1=taun1,sigma_e2=taun2, sigma_h2=taun2)
                         n1 = ni * np.exp(Et1 / kb / T)
                         p1 = ni * np.exp(-Et1 / kb / T)
                         n2 = ni * np.exp(Et2 / kb / T)
                         p2 = ni * np.exp(-Et2 / kb / T)
-                        R = (n * p - ni**2) *((ve*vh/taun1/ve300/(k1*ve*n+vh*p1))+(ve*vh/taun2/ve300/(k2*ve*n2+vh*p)))/(1+((k1*ve*n1+vh*p)/(k1*ve*n+vh*p1))+((k2*ve*n+vh*p2)/(k2*ve*n2+vh*p)))
+                        R = Nt * (n * p - ni**2) *((ve*vh/taun1/ve300/(k1*ve*n+vh*p1))+(ve*vh/taun2/ve300/(k2*ve*n2+vh*p)))/(1+((k1*ve*n1+vh*p)/(k1*ve*n+vh*p1))+((k2*ve*n+vh*p2)/(k2*ve*n2+vh*p)))
                         taus = nxc / R
                         squareerror += np.sum((taus-taum)*(taus-taum)/taus/taus)/len(nxc)
                     return squareerror
@@ -627,6 +628,23 @@ class residual_map():
         self.k2listr = k2listr
         self.residuallistr = residuallistr 
         self.extent = extent
+
+
+    def fit_plotter(self):
+        # Plot the fitting curve
+        plt.figure(num='fitting', facecolor='white')
+
+        for taum, T, Ndop, doptype, nxc in zip(self.taulist, self.Tlist, self.Doplist, self.Typelist, self.nxclist):
+            lm=plt.plot(nxc,taum,'.')
+            tauopt=self.twolevelSRH_full(nxc=nxc,Ndop=Ndop, T=T, doptype=doptype, Nt=self.Nt, Et1=self.Et1opt, Et2=self.Et2opt,sigma_e1=1/self.taun1opt/self.Nt/self.ve300, sigma_h1=1/self.taun1opt/self.Nt/self.ve300/self.k1opt,sigma_e2=1/self.taun2opt/self.Nt/self.ve300, sigma_h2=1/self.taun2opt/self.Nt/self.ve300/self.k2opt)
+            plt.plot(nxc,tauopt,'--',color=lm[0].get_color())
+
+        plt.title('Residual={:.5e}'.format(self.resiopt))
+        plt.loglog()
+        plt.xlabel(r'Excess carrier density [$\rm cm^{-3}$]')
+        plt.ylabel(r'Lifetime [s]')
+        plt.savefig('fitting curve' + '.png')
+        plt.show()
 
 
     def data_savor(self):

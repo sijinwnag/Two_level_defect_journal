@@ -30,3 +30,6 @@ residual_map.sp2 = sp2
 
 # plot the residual map
 residual_map.residual_calculator()
+
+# %% plot the fitting
+residual_map.fit_plotter()
