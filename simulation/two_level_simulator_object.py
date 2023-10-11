@@ -563,6 +563,12 @@ class two_level_lifetime_generator():
         #  Define experiment: every time remember to run this line to refresh the code.
         self.exp = Experiment(SaveDir=self.SAVEDIR, Parameters=self.PARAMETERS)
 
+        # define the parameters for BO
+        self.S_p_1 = 1e-16
+        self.S_p_2 = 1e-16
+        self.k_1 = 12711
+        self.k_2 = 1.184
+        
         # update the parameters to match with BO measurement
         self.PARAM={
         # 'type': self.WAFERTYPE,                #   Wafer doping type
@@ -579,19 +585,19 @@ class two_level_lifetime_generator():
         # 'S_max_2_p':1E-13,              #   Maximum capture cross section for hole.
         # 'S_max_2_n':1E-13,              # maximum capcture cross section for electron.
         # the parameter to simulate BO:
-        'Et_min_1':0.15,             #   Minimum defect energy level
-        'Et_max_1':0.15,              #   Maximum defect energy level
-        'Et_min_2':-0.3,             #   Minimum defect energy level
-        'Et_max_2':-0.3,              #   Maximum defect energy level
-        'S_min_1_p':1e-14/18,              #   Minimum capture cross section for hole.
-        'S_min_1_n':1e-14,          #   Minimum capture cross section for electron.
-        'S_max_1_p':1e-14/18,              #   Maximum capture cross section for hole.
-        'S_max_1_n':1e-14,              # maximum capcture cross section for electron.
-        'S_min_2_p':1e-14/103.2*86,              #   Minimum capture cross section for hole.
-        'S_min_2_n':1e-14/103.2,          #   Minimum capture cross section for electron.
-        'S_max_2_p':1e-14/103.2*86,              #   Maximum capture cross section for hole.
-        'S_max_2_n':1E-14/103.2,              # maximum capcture cross section for electron.
-        'Nt':5E10,                  #   Defect density
+        'Et_min_1':-0.453,             #   Minimum defect energy level
+        'Et_max_1':-0.453,              #   Maximum defect energy level
+        'Et_min_2':0.306,             #   Minimum defect energy level
+        'Et_max_2':0.306,              #   Maximum defect energy level
+        'S_min_1_p':self.S_p_1,              #   Minimum capture cross section for hole.
+        'S_min_1_n':self.S_p_1*self.k_1,          #   Minimum capture cross section for electron.
+        'S_max_1_p':self.S_p_1,              #   Maximum capture cross section for hole.
+        'S_max_1_n':self.S_p_1*self.k_1,              # maximum capcture cross section for electron.
+        'S_min_2_p':self.S_p_2,              #   Minimum capture cross section for hole.
+        'S_min_2_n':self.S_p_2*self.k_2,          #   Minimum capture cross section for electron.
+        'S_max_2_p':self.S_p_2,              #   Maximum capture cross section for hole.
+        'S_max_2_n':self.S_p_2*self.k_2,              # maximum capcture cross section for electron.
+        'Nt':1e12,                  #   Defect density
         'check_auger': False,     #   Check wether to resample if lifetime is auger-limited
         'noise':'',             #   Enable noiseparam
         'noiseparam':0,         #   Adds noise proportional to the log of Delta n
@@ -601,8 +607,8 @@ class two_level_lifetime_generator():
         # update the wafer type
         self.WAFERTYPE = 'p'
         self.PARAM['type'] = self.WAFERTYPE
-        # update the defect density
-        self.PARAM['Nt'] = 3e10
+        # update the defect density data
+        self.PARAM['Nt'] = 1e12
         # update the excess carrier concentration
         self.PARAMETERS['dn_range'] = np.logspace(13,15.5,100)
         # simulate the data
@@ -616,8 +622,6 @@ class two_level_lifetime_generator():
         # update the wafer type
         self.WAFERTYPE = 'n'
         self.PARAM['type'] = self.WAFERTYPE
-        # update the defect density
-        self.PARAM['Nt'] = 2E12
         # update the excess carrier concentration
         self.PARAMETERS['dn_range'] = np.logspace(14,16.5,100)
         # simulate the data
@@ -627,12 +631,10 @@ class two_level_lifetime_generator():
         dataDf_n_343['Label']=[0 if mode=="Two one-level" else 1 for mode in dataDf_n_343['Mode']]
 
 
-         # Simualate datasets: for n type 303K and excess carrier concentration from 1e14 to 3e16
+        # Simualate datasets: for n type 303K and excess carrier concentration from 1e14 to 3e16
         # update the wafer type
         self.WAFERTYPE = 'n'
         self.PARAM['type'] = self.WAFERTYPE
-        # update the defect density
-        self.PARAM['Nt'] = 1E12
         # update the excess carrier concentration
         self.PARAMETERS['dn_range'] = np.logspace(14,16.5,100)
         # simulate the data
@@ -683,7 +685,7 @@ class two_level_lifetime_generator():
             # plot the p type 303K: 1e6 is to convert from s to us
             plt.plot(np.logspace(13, 15.5, 100), lifetimes[0, :]*1e6, label='303K, p-type')
             # plot with Yan data
-            plt.plot(self.dn_p_303_8_5e14, self.tau_p_303_8_5e14*1e6, label='303K, p-type, Yan data')
+            plt.plot(self.dn_p_303_8_5e14, self.tau_p_303_8_5e14*1e6, label='303K, p-type, Experimental data')
             # plot the p type 343K: 1e6 is to convert from s to us
             plt.plot(np.logspace(14, 16.5, 100), lifetimes[1, :]*1e6, label='343K, n-type')
             plt.plot(self.dn_p_343_2e15, self.tau_p_343_2e15*1e6, label='343K, n-type, Yan data')
@@ -739,13 +741,13 @@ class two_level_lifetime_generator():
             # plot the p type 303K: 1e6 is to convert from s to us
             plt.plot(np.logspace(13, 15.5, 100), lifetimes[0, :]*1e6, label='303K, p-type')
             # plot with Yan data
-            plt.plot(self.dn_p_303_8_5e14, self.tau_p_303_8_5e14*1e6, label='303K, p-type, Yan data')
+            plt.scatter(self.dn_p_303_8_5e14, self.tau_p_303_8_5e14*1e6, label='303K, p-type, Experimental data')
             # plot the p type 343K: 1e6 is to convert from s to us
             # plt.plot(np.logspace(14, 16.5, 100), lifetimes[1, :]*1e6, label='343K, n-type')
             # plt.plot(self.dn_p_343_2e15, self.tau_p_343_2e15*1e6, label='343K, n-type, Yan data')
             # plot the n type 303K: 1e6 is to convert from s to us
             plt.plot(np.logspace(14, 16.5, 100), lifetimes[1, :]*1e6, label='303K, n-type')
-            plt.plot(self.dn_n_303_2e15,self.tau_n_303_2e15*1e6, label='303K, n-type, Yan data')
+            plt.scatter(self.dn_n_303_2e15,self.tau_n_303_2e15*1e6, label='303K, n-type, Experimental data')
 
             plt.legend()
             plt.xlabel('Excess carrier concentration ' + '$(cm^{-3})$', fontsize=22)
@@ -901,7 +903,7 @@ class two_level_lifetime_generator():
             self.email_reminder()
 
 
-    def experimental_data_interpolator(self):
+    def experimental_data_interpolator(self, plot=False):
         '''
         Interpolates the experimental data measured by Yan into the same excess 
         carrier concentration as the simulated data
@@ -934,29 +936,28 @@ class two_level_lifetime_generator():
         self.dn_n_303_2e15_interpolated = new_dn_values_n_303_2e15
         self.tau_n_303_2e15_interpolated = interpolated_tau_values_n_303_2e15
 
-        # Plot
-        plt.figure(facecolor='white')
-        # p type 303K, 8.5e14
-        plt.plot(new_dn_values_p_303_8_5e14, interpolated_tau_values_p_303_8_5e14, label='p type 303K, 8.5e14')
-        plt.scatter(self.dn_p_303_8_5e14, self.tau_p_303_8_5e14, s=10)
-        
-        # p type 343K, 2e15
-        plt.plot(new_dn_values_p_343_2e15, interpolated_tau_values_p_343_2e15, label='p type 343K, 2e15')
-        plt.scatter(self.dn_p_343_2e15, self.tau_p_343_2e15, s=10)
-        
-        # n type 303K, 2e15
-        plt.plot(new_dn_values_n_303_2e15, interpolated_tau_values_n_303_2e15, label='n type 303K, 2e15')
-        plt.scatter(self.dn_n_303_2e15, self.tau_n_303_2e15, s=10)
-        
-        plt.legend()
-        plt.xlabel('Excess carrier concentration ' + '$(cm^{-3})$', fontsize=22)
-        plt.ylabel('Lifetime ' + '$(s)$', fontsize=22)
-        plt.xscale('log')
-        plt.yscale('log')
-        plt.title('Raw Lifetime Data', fontsize=22)
-        plt.show()
-
-        # now export the data the same format as the simulator
+        if plot:
+            # Plot
+            plt.figure(facecolor='white')
+            # p type 303K, 8.5e14
+            plt.plot(new_dn_values_p_303_8_5e14, interpolated_tau_values_p_303_8_5e14, label='p type 303K, 8.5e14')
+            plt.scatter(self.dn_p_303_8_5e14, self.tau_p_303_8_5e14, s=10)
+            
+            # p type 343K, 2e15
+            plt.plot(new_dn_values_p_343_2e15, interpolated_tau_values_p_343_2e15, label='p type 343K, 2e15')
+            plt.scatter(self.dn_p_343_2e15, self.tau_p_343_2e15, s=10)
+            
+            # n type 303K, 2e15
+            plt.plot(new_dn_values_n_303_2e15, interpolated_tau_values_n_303_2e15, label='n type 303K, 2e15')
+            plt.scatter(self.dn_n_303_2e15, self.tau_n_303_2e15, s=10)
+            
+            plt.legend()
+            plt.xlabel('Excess carrier concentration ' + '$(cm^{-3})$', fontsize=22)
+            plt.ylabel('Lifetime ' + '$(s)$', fontsize=22)
+            plt.xscale('log')
+            plt.yscale('log')
+            plt.title('Raw Lifetime Data', fontsize=22)
+            plt.show()
 
 
     def interpolate_data_exporter(self):
@@ -1077,6 +1078,120 @@ class two_level_lifetime_generator():
 
         # export the data
         self.exp.exportDataset()
+
+
+    def experimental_data_fit(self, sp1_resolution=10, sp2_resolutoin=10):
+        '''
+        Given that Et1=-0.453, Et2=0.306 ,k1=12711, ke=1.184, try to find out sp1 and sp2
+        '''
+        # interpolate the experimental data
+        self.experimental_data_interpolator()
+
+        # load interpolated lifetime data from the object.
+        p_303K = self.tau_p_303_8_5e14_interpolated
+        dn_p_303K = self.dn_p_303_8_5e14_interpolated
+        n_303K = self.tau_n_303_2e15_interpolated
+        dn_n_303K = self.dn_n_303_2e15_interpolated
+
+        # define hte simulatoin parameters:
+        # known parameters from Yan:
+        Et1 = -0.453
+        Et2 = 0.306
+        k1 = 12711
+        k2 = 1.184
+        # define the range for sp1 and sp2
+        sp1_range = np.logspace(-17, -13, sp1_resolution)
+        sp2_range = np.logspace(-17, -13, sp2_resolutoin)
+
+        # define into the object
+        self.PARAM['Et_min_1'] = Et1
+        self.PARAM['Et_max_1'] = Et1
+        self.PARAM['Et_min_2'] = Et2
+        self.PARAM['Et_max_2'] = Et2
+
+        # loop through sp1 and sp2 option.
+        sp1_opt = 0
+        sp2_opt = 0
+        loss_opt = 1e10
+        for sp1 in sp1_range:
+            for sp2 in sp2_range:
+                # update the capture cross sections
+                self.PARAM['S_min_1_p'] = sp1
+                self.PARAM['S_max_1_p'] = sp1
+                self.PARAM['S_min_2_p'] = sp2
+                self.PARAM['S_max_2_p'] = sp2
+                self.PARAM['S_min_1_n'] = sp1*k1
+                self.PARAM['S_max_1_n'] = sp1*k1
+                self.PARAM['S_min_2_n'] = sp2*k2
+                self.PARAM['S_max_2_n'] = sp2*k2
+
+                # simulate the BO lifeitme data: p 303K, 8.5e14.
+                self.WAFERTYPE = 'p'
+                self.PARAM['type'] = self.WAFERTYPE
+                # update the defect density data
+                self.PARAM['Nt'] = 1e12
+                # update the excess carrier concentration
+                self.PARAMETERS['dn_range'] = np.logspace(13,15.5,100)
+                # simulate the data
+                db_sah = DPML.generateDB_sah(self.PARAMETERS['n_defects'], [303], [8.5e14], np.logspace(13,15.5,100), self.PARAM) # one two-level defect data
+                db_sah['Mode']=['Single two-level']*len(db_sah)
+                dataDf_p_303 = db_sah
+                dataDf_p_303['Label']=[0 if mode=="Two one-level" else 1 for mode in dataDf_p_303['Mode']]
+                # extract the lifetime data from the first row: whose colunm title starts with a number:
+                select_X_list = []
+                for string in dataDf_p_303.columns.tolist():
+                    if string[0].isdigit():
+                        select_X_list.append(string)
+                # replace the ones with titles into pure lifetime
+                dataDf_p_303 = dataDf_p_303[select_X_list]
+
+                # Simualate datasets: for n type 303K and excess carrier concentration from 1e14 to 3e16
+                # update the wafer type
+                self.WAFERTYPE = 'n'
+                self.PARAM['type'] = self.WAFERTYPE
+                # update the excess carrier concentration
+                self.PARAMETERS['dn_range'] = np.logspace(14,16.5,100)
+                # simulate the data
+                db_sah=DPML.generateDB_sah(self.PARAMETERS['n_defects'], [303], [2e15], np.logspace(14,16.5,100), self.PARAM) # one two-level defect data
+                db_sah['Mode']=['Single two-level']*len(db_sah)
+                dataDf_n_303=db_sah
+                dataDf_n_303['Label']=[0 if mode=="Two one-level" else 1 for mode in dataDf_n_303['Mode']]
+                # replace the ones with titles into pure lifetime
+                select_X_list = []
+                for string in dataDf_n_303.columns.tolist():
+                    if string[0].isdigit():
+                        select_X_list.append(string)
+                # replace the ones with titles into pure lifetime
+                dataDf_n_303 = dataDf_n_303[select_X_list]
+
+                # calculate the loss function
+                curve_dist_p = np.sum(np.sum((dataDf_p_303-p_303K)*(dataDf_p_303-p_303K)/p_303K/p_303K))
+                curve_dist_n = np.sum(np.sum((dataDf_n_303-n_303K)*(dataDf_n_303-n_303K)/n_303K/n_303K))
+                loss = np.sum(curve_dist_p + curve_dist_n)
+
+                # update the optimal parameters
+                if loss < loss_opt:
+                    loss_opt = loss
+                    sp1_opt = sp1
+                    sp2_opt = sp2
+
+                # print out the progress
+                print('Finish checking ' + str(sp1) + ' ' + str(sp2) + ' loss is ' + str(loss_opt)) 
+
+        # return hte optimal sp1 sp2
+        print('Optimal sp1 is ' + str(sp1_opt))
+        print('Optimal sp2 is ' + str(sp2_opt))
+        print('Optimal loss is ' + str(loss_opt))
+
+        # visualization.
+        plt.figure(facecolor='white')
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.scatter(self.dn_p_303_8_5e14, self.tau_p_303_8_5e14, label='p 303K, 8.5e14 experiment')
+        plt.plot(dn_p_303K, dataDf_p_303.iloc[0, :], label='p 303K, 8.5e14 simulation')
+        plt.scatter(self.dn_n_303_2e15, self.tau_n_303_2e15, label='n 303K, 2e15 experiment')
+        plt.plot(dn_n_303K ,dataDf_n_303.iloc[0, :], label='n 303K, 2e15 simulation')
+        plt.show()
 
 
     def email_reminder(self):

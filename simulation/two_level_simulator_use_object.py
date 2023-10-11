@@ -90,5 +90,15 @@ simulator.PARAMETERS['n_defects'] = 1
 simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # simualte the data
 simulator.interpolate_data_exporter()
+
+# %% find the sp1 and sp2
+# %% Simulate the Yan BO lifetime
+simulator = two_level_lifetime_generator()
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects'] = 1
+# update the save directory
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.experimental_data_fit(sp1_resolution=5, sp2_resolutoin=5)
 # %%
 simulator.email_reminder()
