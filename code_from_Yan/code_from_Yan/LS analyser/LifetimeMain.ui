@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LSanalyzer</class>
+ <widget class="QMainWindow" name="LSanalyzer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>354</width>
+    <height>340</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="Maincentralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="MainLayout">
+      <item>
+       <widget class="QPushButton" name="MainlifesimuPushB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Helvetica</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Lifetime simulator</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="MainIDLSPushB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Helvetica</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>TIDLS and Ndop-IDLS</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="MainTDLSPushB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Helvetica</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>TDLS</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="MainAboutPushB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Helvetica</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>About</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <action name="actionni">
+   <property name="text">
+    <string>ni</string>
+   </property>
+  </action>
+  <action name="actionB">
+   <property name="text">
+    <string>Bandgap</string>
+   </property>
+  </action>
+  <action name="actionionisation">
+   <property name="text">
+    <string>ionisation</string>
+   </property>
+  </action>
+  <action name="actionThermal_velocity">
+   <property name="text">
+    <string>Thermal velocity</string>
+   </property>
+  </action>
+  <action name="actionAltermatt2005">
+   <property name="text">
+    <string>Altermatt2005</string>
+   </property>
+  </action>
+  <action name="actionTrupke2003">
+   <property name="text">
+    <string>Trupke2003</string>
+   </property>
+  </action>
+  <action name="actionRichter2012">
+   <property name="text">
+    <string>Richter2012</string>
+   </property>
+  </action>
+  <action name="actionKerr2002_simple">
+   <property name="text">
+    <string>Kerr2002_simple</string>
+   </property>
+  </action>
+  <action name="actionKerr2002_complex">
+   <property name="text">
+    <string>Kerr2002_complex</string>
+   </property>
+  </action>
+  <action name="actionGlunz1999">
+   <property name="text">
+    <string>Glunz1999</string>
+   </property>
+  </action>
+  <action name="actionAltermatt1997">
+   <property name="text">
+    <string>Altermatt1997</string>
+   </property>
+  </action>
+  <action name="actionCouderc2014">
+   <property name="text">
+    <string>Couderc2014</string>
+   </property>
+  </action>
+  <action name="actionGreen1990_full">
+   <property name="text">
+    <string>Green1990_full</string>
+   </property>
+  </action>
+  <action name="actionGreen1990_param">
+   <property name="text">
+    <string>Green1990_param</string>
+   </property>
+  </action>
+  <action name="actionYan2014fer">
+   <property name="text">
+    <string>Yan2014fer</string>
+   </property>
+  </action>
+  <action name="actionDelAlamo1985">
+   <property name="text">
+    <string>DelAlamo1985</string>
+   </property>
+  </action>
+  <action name="actionCuevas1996">
+   <property name="text">
+    <string>Cuevas1996</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
