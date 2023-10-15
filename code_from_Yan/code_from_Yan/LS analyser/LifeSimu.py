@@ -1,4 +1,4 @@
-# %%
+    # %%
 import numpy as np
 import sys, os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QActionGroup, QFileDialog, QGridLayout, QLineEdit, QLabel, QPushButton

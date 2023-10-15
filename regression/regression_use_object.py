@@ -26,12 +26,37 @@ regressor.load_test_model()
 regressor = ML_regression()
 
 # define the training path
-regressor.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data\outputs\2023-10-06-08-29-25_advanced example - multi_level_L_datasetID_0.csv"
-# define the y variable
-regressor.y_str = 'Et_eV_2'
+regressor.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data\outputs\2023-10-14-12-31-30_advanced example - multi_level_L_datasetID_0.csv"
+regressor.y_str = 'Et_eV_1'
 
 # train test the model
-regressor.train_test_model()
+regressor.train_test_model(apply_PCA=False)
+
+# export the model and scaler
+regressor.export_model_scaler()
+
+# %% train a model for multioutput
+# define the object
+regressor = ML_regression()
+
+# define the training path
+regressor.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data\outputs\2023-10-14-13-53-11_advanced example - multi_level_L_datasetID_0.csv"
+
+# define the ML model
+regressor.model = MLPRegressor(hidden_layer_sizes=(100, 100, 100), max_iter=1000, tol=1e-7, random_state=1, verbose=True)
+
+# define hte grid serach parameters:
+regressor.param_dist = {
+    'hidden_layer_sizes': [(100,), (100 ,100), (500 ,500, 500)],
+    'activation': ['relu', 'tanh', 'logistic'],
+    'solver': ['adam', 'sgd', 'lbfgs'],
+    'alpha': [0.0001, 0.001, 0.01, 0.1],
+    'learning_rate': ['constant', 'invscaling', 'adaptive'],
+    'learning_rate_init': [0.001, 0.01, 0.1],
+}
+
+# train test the model
+regressor.train_test_model_multi(apply_PCA=False, randomsearch=True)
 
 # export the model and scaler
 regressor.export_model_scaler()

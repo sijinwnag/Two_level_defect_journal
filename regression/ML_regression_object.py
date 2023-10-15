@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import seaborn as sn
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 import matplotlib.pyplot as plt
 import matplotlib.colors
 from sklearn.preprocessing import MinMaxScaler
@@ -29,6 +29,8 @@ from sklearn.inspection import permutation_importance
 import sympy as sym
 import joblib
 import time
+from sklearn.decomposition import PCA
+from sklearn.neural_network import MLPRegressor
 
 # %% define the object
 
@@ -58,6 +60,9 @@ class ML_regression():
 
         # define the y for regression
         self.y_str = 'Et_eV_1'
+
+        # define a list of y for prediction
+        self.y_list = ['Et_eV_1', 'Et_eV_2', 'logSn_1' ,'logSn_2', 'logSp_1', 'logSp_2']
     
 
     def load_test_model(self):
@@ -139,7 +144,7 @@ class ML_regression():
         return X, y
 
 
-    def train_test_model(self):
+    def train_test_model(self, apply_PCA=True, gridsearch=False):
         '''
         This function aims to train and test the model
         '''
@@ -160,21 +165,40 @@ class ML_regression():
         # store the scaler into object
         self.trained_scaler = scaler
 
-        # define the model
-        model = self.model
-        model.fit(X_train_scaled, y_train)
-        # store the model into object
-        self.trained_model = model
+        # apply PCA
+        if apply_PCA:
+            pca = PCA(n_components=0.99)
+            pca.fit(X_train_scaled)
+            X_train_scaled = pca.transform(X_train_scaled)
+            X_test_scaled = pca.transform(X_test_scaled)
+
+        if gridsearch:
+            grid_search = GridSearchCV(self.model, self.param_grid, cv=5, n_jobs=-1, verbose=2)
+            grid_search.fit(X_train_scaled, y_train)
+
+            # Train the model using the best parameters
+            best_model = grid_search.best_estimator_
+            self.trained_model = best_model
+
+        else:
+            # define the model
+            model = self.model
+            model.fit(X_train_scaled, y_train)
+            # store the model into object
+            self.trained_model = model
 
         # make the prediction
         y_pred = model.predict(X_test_scaled)
+        # for training set
+        y_train_pred = model.predict(X_train_scaled)
 
-        # plot the real vs prediction
+        # plot the real vs prediction for testing set
         plt.figure()
+        plt.title('Test set')
         plt.scatter(y_test, y_pred, alpha = self.transparency_calculator(np.shape(y_test)[0]))
         plt.show()
 
-        # compute the confusion matrix
+        # compute the evaluation matrix
         r2 = r2_score(y_test, y_pred)
         print('R2 score is ' + str(r2))
         self.r2 = r2
@@ -186,6 +210,22 @@ class ML_regression():
         mse = mean_squared_error(y_test, y_pred)
         print('Mean Square Error: ' + str(mse))
         self.mse = mse
+
+        # plot the real vs prediction for training set
+        plt.figure()
+        plt.title('Training set')
+        plt.scatter(y_train, y_train_pred, alpha = self.transparency_calculator(np.shape(y_train)[0]))
+        plt.show()
+
+        # compute the evaluation matrix
+        r2 = r2_score(y_train, y_train_pred)
+        print('R2 score is ' + str(r2))
+
+        mae = mean_absolute_error(y_train, y_train_pred)
+        print('Mean Absolute Error: ' + str(mae))
+
+        mse = mean_squared_error(y_train, y_train_pred)
+        print('Mean Square Error: ' + str(mse))
 
     
     def transparency_calculator(self, datasize):
@@ -207,3 +247,102 @@ class ML_regression():
         '''
         joblib.dump(self.trained_model, 'trained_model_' + str(self.y_str) + '.joblib')
         joblib.dump(self.trained_scaler, 'trained_scaler_' + str(self.y_str) + '.joblib')
+
+    
+    def train_test_model_multi(self, apply_PCA=False, randomsearch=False):
+        # load the training data
+        training_data = pd.read_csv(self.training_path)
+
+        y_combined = pd.DataFrame()
+        # extract x and y
+        for y_str in self.y_list:
+            # update the y string
+            self.y_str = y_str
+            # extract the X and y (X will be the same)
+            X, y = self.pre_processor(training_data)
+            # name the y column
+            y.name = y_str
+            # collect the y
+            y_combined = pd.concat([y_combined, y], axis=1)
+        # rename y
+        y = y_combined
+
+
+        # train_test split
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+
+        # define the scaler
+        scaler = self.scaler
+        scaler.fit(X_train)
+        X_train_scaled = scaler.transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        # store the scaler into object
+        self.trained_scaler = scaler
+
+        # apply PCA
+        if apply_PCA:
+            pca = PCA(n_components=0.99)
+            pca.fit(X_train_scaled)
+            X_train_scaled = pca.transform(X_train_scaled)
+            X_test_scaled = pca.transform(X_test_scaled)
+
+        # Use RandomizedSearchCV with the model
+        if randomsearch:
+            random_search = RandomizedSearchCV(self.model, param_distributions=self.param_dist,
+                                            n_iter=100, cv=3, verbose=2, random_state=42, n_jobs=-1)
+            
+            random_search.fit(X_train_scaled, y_train)
+            
+            # Use the best estimator from random search
+            best_model = random_search.best_estimator_
+            print(best_model)
+            self.trained_model = best_model
+
+        else:
+            # define the model
+            model = self.model
+            model.fit(X_train_scaled, y_train)
+            # store the model into object
+            self.trained_model = model
+
+        # make the prediction
+        y_pred = model.predict(X_test_scaled)
+        # for training set
+        y_train_pred = model.predict(X_train_scaled)
+
+        # plot the real vs prediction for testing set
+        for k in range(np.shape(y_test)[1]):
+            print(self.y_list[k])
+            plt.figure()
+            plt.title('Test set')
+            plt.scatter(y_test.iloc[:, k], y_pred[:, k], alpha = self.transparency_calculator(np.shape(y_test)[0]))
+            plt.show()
+
+            # compute the evaluation matrix
+            r2 = r2_score(y_test.iloc[:, k], y_pred[:, k])
+            print('R2 score is ' + str(r2))
+            self.r2 = r2
+
+            mae = mean_absolute_error(y_test.iloc[:, k], y_pred[:, k])
+            print('Mean Absolute Error: ' + str(mae))
+            self.mae = mae
+
+            mse = mean_squared_error(y_test.iloc[:, k], y_pred[:, k])
+            print('Mean Square Error: ' + str(mse))
+            self.mse = mse
+
+            # plot the real vs prediction for training set
+            plt.figure()
+            plt.title('Training set')
+            plt.scatter(y_train.iloc[:, k], y_train_pred[:, k], alpha = self.transparency_calculator(np.shape(y_train)[0]))
+            plt.show()
+
+            # compute the evaluation matrix
+            r2 = r2_score(y_train.iloc[:, k], y_train_pred[:, k])
+            print('R2 score is ' + str(r2))
+
+            mae = mean_absolute_error(y_train.iloc[:, k], y_train_pred[:, k])
+            print('Mean Absolute Error: ' + str(mae))
+
+            mse = mean_squared_error(y_train.iloc[:, k], y_train_pred[:, k])
+            print('Mean Square Error: ' + str(mse))

@@ -77,7 +77,7 @@ simulator.PARAMETERS['n_defects'] = 8000
 # update the save directory
 simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # simualte the data
-simulator.BO_training_simulator(emailme=True)
+simulator.BO_training_simulator_2_curves(emailme=False)
 
 # %% Interpolate the expeirmental data
 simulator = two_level_lifetime_generator()
