@@ -63,6 +63,10 @@ class ML_regression():
 
         # define a list of y for prediction
         self.y_list = ['Et_eV_1', 'Et_eV_2', 'logSn_1' ,'logSn_2', 'logSp_1', 'logSp_2']
+
+        # the parameter to plot a 3rd dimensoin as colour
+        self.colour_plot = True
+        self.colour_str = 'Et_eV_1'
     
 
     def load_test_model(self):
@@ -311,12 +315,40 @@ class ML_regression():
         y_train_pred = model.predict(X_train_scaled)
 
         # plot the real vs prediction for testing set
+        # Create subplots for test and training data testing data
+        fig1, axes1 = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))  # Assuming you want 3 columns
+        fig1.suptitle('True vs prediciton for testing set')
+        # training data
+        fig2 ,axes2 = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))  # Assuming you want 3 columns
+        fig2.suptitle('True vs prediciton for training set')
+        # loop to complete the plotting
         for k in range(np.shape(y_test)[1]):
+
+            # calculate the index:
+            row_idx = k // 3
+            col_idx = k % 3
+
+            # print the parameter name
             print(self.y_list[k])
-            plt.figure()
-            plt.title('Test set')
-            plt.scatter(y_test.iloc[:, k], y_pred[:, k], alpha = self.transparency_calculator(np.shape(y_test)[0]))
-            plt.show()
+            # extract the colour code parameter if required
+            if self.colour_plot:
+                colour_code_tr = y_train[self.colour_str]
+                colour_code_te = y_test[self.colour_str]
+            else:
+                colour_code_tr = 'blue'
+                colour_code_te = 'blue'
+
+            # plot the real vs prediction for testing set
+            # plt.figure()
+            # plt.title('Test set')
+            # plt.scatter(y_test.iloc[:, k], y_pred[:, k], alpha = self.transparency_calculator(np.shape(y_test)[0]), c=colour_code_te, cmap='RdBu')
+            # if self.colour_plot:
+            #     plt.colorbar(label=self.colour_str)
+            # plt.show()
+            sc1 = axes1[row_idx, col_idx].scatter(y_test.iloc[:, k], y_pred[:, k], alpha = self.transparency_calculator(np.shape(y_test)[0]), c=colour_code_te, cmap='RdBu')
+            axes1[row_idx, col_idx].set_title(self.y_list[k])
+            if self.colour_plot:
+                sc1.colorbar(label=self.colour_str)
 
             # compute the evaluation matrix
             r2 = r2_score(y_test.iloc[:, k], y_pred[:, k])
@@ -332,10 +364,16 @@ class ML_regression():
             self.mse = mse
 
             # plot the real vs prediction for training set
-            plt.figure()
-            plt.title('Training set')
-            plt.scatter(y_train.iloc[:, k], y_train_pred[:, k], alpha = self.transparency_calculator(np.shape(y_train)[0]))
-            plt.show()
+            # plt.figure()
+            # plt.title('Training set')
+            # plt.scatter(y_train.iloc[:, k], y_train_pred[:, k], alpha = self.transparency_calculator(np.shape(y_train)[0]), c=colour_code_tr, cmap='RdBu')
+            # if self.colour_plot:
+            #     plt.colorbar(label=self.colour_str)
+            # plt.show()
+            sc2 = axes2[row_idx, col_idx].scatter(y_train.iloc[:, k], y_train_pred[:, k], alpha = self.transparency_calculator(np.shape(y_train)[0]), c=colour_code_tr, cmap='RdBu')
+            axes2[row_idx, col_idx].set_title(self.y_list[k])
+            if self.colour_plot:
+                sc2.colorbar(label=self.colour_str)
 
             # compute the evaluation matrix
             r2 = r2_score(y_train.iloc[:, k], y_train_pred[:, k])

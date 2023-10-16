@@ -1339,10 +1339,10 @@ class two_level_lifetime_generator():
         # update the parameters to match with BO measurement
         self.PARAM={
         # 'type': self.WAFERTYPE,                #   Wafer doping type
-        'Et_min_1':-0.55,             #   Minimum defect energy level
-        'Et_max_1':0,              #   Maximum defect energy level
-        'Et_min_2':0,             #   Minimum defect energy level
-        'Et_max_2':0.55,              #   Maximum defect energy level
+        'Et_min_1':-0.453,             #   Minimum defect energy level # experimental fitting result is -0.453 eV
+        'Et_max_1':-0.453,              #   Maximum defect energy level
+        'Et_min_2':0.306,             #   Minimum defect energy level # experimental fitting result is 0.306 eV
+        'Et_max_2':0.306,              #   Maximum defect energy level
         'S_min_1_p':10**(-17),              #   Minimum capture cross section for hole.
         'S_min_1_n':10**(-17),          #   Minimum capture cross section for electron.
         'S_max_1_p':10**(-13),              #   Maximum capture cross section for hole.

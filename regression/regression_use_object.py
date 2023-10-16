@@ -40,12 +40,12 @@ regressor.export_model_scaler()
 regressor = ML_regression()
 
 # define the training path
-regressor.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data\outputs\2023-10-14-13-53-11_advanced example - multi_level_L_datasetID_0.csv"
-
+regressor.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data\outputs\Set01_8k.csv"
 # define the ML model
-regressor.model = MLPRegressor(hidden_layer_sizes=(100, 100, 100), max_iter=1000, tol=1e-7, random_state=1, verbose=True)
+# regressor.model = MLPRegressor(hidden_layer_sizes=(100, 100, 100), max_iter=1000, tol=1e-7, random_state=1, verbose=True)
+regressor.model = RandomForestRegressor(n_estimators=100, max_depth=100, random_state=1, verbose=True)
 
-# define hte grid serach parameters:
+# define thee grid serach parameters for NN
 regressor.param_dist = {
     'hidden_layer_sizes': [(100,), (100 ,100), (500 ,500, 500)],
     'activation': ['relu', 'tanh', 'logistic'],
@@ -55,8 +55,11 @@ regressor.param_dist = {
     'learning_rate_init': [0.001, 0.01, 0.1],
 }
 
+# define the y variable
+regressor.y_str = 'Multi-output'
+
 # train test the model
-regressor.train_test_model_multi(apply_PCA=False, randomsearch=True)
+regressor.train_test_model_multi(apply_PCA=False, randomsearch=False)
 
 # export the model and scaler
 regressor.export_model_scaler()

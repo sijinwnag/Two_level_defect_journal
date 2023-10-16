@@ -73,11 +73,11 @@ simulator.two_level_simulate_BO()
 # %% Simulate training dataset n 303K and p 303 K
 simulator = two_level_lifetime_generator()
 # define the number of defect to simulate
-simulator.PARAMETERS['n_defects'] = 8000
+simulator.PARAMETERS['n_defects'] = 80000
 # update the save directory
 simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # simualte the data
-simulator.BO_training_simulator_2_curves(emailme=False)
+simulator.BO_training_simulator_2_curves(emailme=True)
 
 # %% Interpolate the expeirmental data
 simulator = two_level_lifetime_generator()
