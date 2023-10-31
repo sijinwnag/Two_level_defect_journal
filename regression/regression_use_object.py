@@ -42,21 +42,26 @@ regressor = ML_regression()
 # define the training path
 regressor.training_path = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data\outputs\Set01_8k.csv"
 # define the ML model
-# regressor.model = MLPRegressor(hidden_layer_sizes=(100, 100, 100), max_iter=1000, tol=1e-7, random_state=1, verbose=True)
-regressor.model = RandomForestRegressor(n_estimators=100, max_depth=100, random_state=1, verbose=True)
+regressor.model = MLPRegressor(hidden_layer_sizes=(50, 50, 50, 50, 50, 50, 50, 50, 50, 50,
+                                                   50, 50, 50, 50, 50, 50, 50, 50, 50, 50,
+                                                   50, 50, 50, 50, 50, 50, 50, 50, 50, 50), tol=1e-7, random_state=1, verbose=True, batch_size=32)
+# regressor.model = RandomForestRegressor(n_estimators=100, max_depth=100, random_state=1, verbose=True)
 
 # define thee grid serach parameters for NN
 regressor.param_dist = {
-    'hidden_layer_sizes': [(100,), (100 ,100), (500 ,500, 500)],
-    'activation': ['relu', 'tanh', 'logistic'],
-    'solver': ['adam', 'sgd', 'lbfgs'],
-    'alpha': [0.0001, 0.001, 0.01, 0.1],
-    'learning_rate': ['constant', 'invscaling', 'adaptive'],
-    'learning_rate_init': [0.001, 0.01, 0.1],
+    'hidden_layer_sizes': [(50 ,50, 50)],
+    'activation': ['relu'],
+    'solver': ['adam'],
+    'alpha': [0.0001],
+    'learning_rate': ['constant'],
+    'learning_rate_init': [0.001],
 }
 
 # define the y variable
 regressor.y_str = 'Multi-output'
+
+# define the coluor code
+regressor.colour_str = 'logSp_2'
 
 # train test the model
 regressor.train_test_model_multi(apply_PCA=False, randomsearch=False)

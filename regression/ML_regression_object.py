@@ -317,10 +317,10 @@ class ML_regression():
         # plot the real vs prediction for testing set
         # Create subplots for test and training data testing data
         fig1, axes1 = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))  # Assuming you want 3 columns
-        fig1.suptitle('True vs prediciton for testing set')
+        fig1.suptitle('True vs prediciton for testing set', fontsize=22)
         # training data
         fig2 ,axes2 = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))  # Assuming you want 3 columns
-        fig2.suptitle('True vs prediciton for training set')
+        fig2.suptitle('True vs prediciton for training set', fontsize=22)
         # loop to complete the plotting
         for k in range(np.shape(y_test)[1]):
 
@@ -347,8 +347,6 @@ class ML_regression():
             # plt.show()
             sc1 = axes1[row_idx, col_idx].scatter(y_test.iloc[:, k], y_pred[:, k], alpha = self.transparency_calculator(np.shape(y_test)[0]), c=colour_code_te, cmap='RdBu')
             axes1[row_idx, col_idx].set_title(self.y_list[k])
-            if self.colour_plot:
-                sc1.colorbar(label=self.colour_str)
 
             # compute the evaluation matrix
             r2 = r2_score(y_test.iloc[:, k], y_pred[:, k])
@@ -372,8 +370,6 @@ class ML_regression():
             # plt.show()
             sc2 = axes2[row_idx, col_idx].scatter(y_train.iloc[:, k], y_train_pred[:, k], alpha = self.transparency_calculator(np.shape(y_train)[0]), c=colour_code_tr, cmap='RdBu')
             axes2[row_idx, col_idx].set_title(self.y_list[k])
-            if self.colour_plot:
-                sc2.colorbar(label=self.colour_str)
 
             # compute the evaluation matrix
             r2 = r2_score(y_train.iloc[:, k], y_train_pred[:, k])
@@ -384,3 +380,7 @@ class ML_regression():
 
             mse = mean_squared_error(y_train.iloc[:, k], y_train_pred[:, k])
             print('Mean Square Error: ' + str(mse))
+
+        # add the colorbar
+        fig1.colorbar(sc1, ax=axes1)
+        fig2.colorbar(sc2, ax=axes2)
