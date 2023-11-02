@@ -64,8 +64,8 @@ class two_level_lifetime_generator():
         }
         self.PARAM={
                 'type': self.WAFERTYPE,                #   Wafer doping type
-                'Et_min_1':-0.55,             #   Minimum defect energy level
-                'Et_max_1':0.55,              #   Maximum defect energy level
+                'Et_min_1':-0.453,             #   Minimum defect energy level
+                'Et_max_1':-0.453,              #   Maximum defect energy level
                 'Et_min_2':-0.55,             #   Minimum defect energy level
                 'Et_max_2':0.55,              #   Maximum defect energy level
                 'S_min_1_p':10**(-17),              #   Minimum capture cross section for hole.
@@ -1341,12 +1341,12 @@ class two_level_lifetime_generator():
         # 'type': self.WAFERTYPE,                #   Wafer doping type
         'Et_min_1':-0.55,             #   Minimum defect energy level # experimental fitting result is -0.453 eV
         'Et_max_1':0,              #   Maximum defect energy level
-        'Et_min_2':0,             #   Minimum defect energy level # experimental fitting result is 0.306 eV
-        'Et_max_2':0,              #   Maximum defect energy level
-        'S_min_1_p':1e-13,              #   Minimum capture cross section for hole. # true solution is 1e-15 cm^2
-        'S_min_1_n':1e-13,          #   Minimum capture cross section for electron. # 1.27e-15 cm^2
-        'S_max_1_p':1e-13,              #   Maximum capture cross section for hole.
-        'S_max_1_n':1e-13,              # maximum capcture cross section for electron.
+        'Et_min_2':0.306,             #   Minimum defect energy level # experimental fitting result is 0.306 eV
+        'Et_max_2':0.306,              #   Maximum defect energy level
+        'S_min_1_p':1e-15,              #   Minimum capture cross section for hole. # true solution is 1e-15 cm^2
+        'S_min_1_n':1.27e-15,          #   Minimum capture cross section for electron. # 1.27e-15 cm^2
+        'S_max_1_p':1e-15,              #   Maximum capture cross section for hole.
+        'S_max_1_n':1.27e-15,              # maximum capcture cross section for electron.
         'S_min_2_p':1E-13,              #   Minimum capture cross section for hole. # 5e-15 cm^2
         'S_min_2_n':1E-13,          #   Minimum capture cross section for electron. # 5.93e-15 cm^2
         'S_max_2_p':1E-13,              #   Maximum capture cross section for hole.
