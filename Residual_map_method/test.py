@@ -34,7 +34,7 @@ Et2list=np.linspace(-0.55,0.55,2)
 #Et1list=[0]
 #Et2list=[0]
 
-# define the real solution:
+# define the real solution:S
 Et2 = -0.3
 Et1 = 0.15
 se1 = 1e-14

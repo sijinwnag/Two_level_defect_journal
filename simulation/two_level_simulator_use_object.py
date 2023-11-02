@@ -49,7 +49,8 @@ simulator.mixture_simulate()
 
 # %% Simulate two-level-lifetime only
 simulator = two_level_lifetime_generator()
-simulator.PARAMETERS['n_defects']=800
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects']= 1
 # update the save directory
 simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
 # update Et range
@@ -60,5 +61,67 @@ simulator.PARAM['Et_max_2'] = 0.55
 # simulate the data
 simulator.two_level_simulate()
 
+# %% Simulate the Yan BO lifetime
+simulator = two_level_lifetime_generator()
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects'] = 1
+# update the save directory
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.two_level_simulate_BO()
+
+# %% Simulate training dataset n 303K and p 303 K
+simulator = two_level_lifetime_generator()
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects'] = 1
+# update the save directory
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.BO_training_simulator_2_curves(emailme=False)
+
+# %% Interpolate the expeirmental data
+simulator = two_level_lifetime_generator()
+# interpolate the data
+simulator.experimental_data_interpolator(plot=True)
+
+# export the data
+# update the save directory
+simulator.PARAMETERS['n_defects'] = 1
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.interpolate_data_exporter()
+
+# %% find the sp1 and sp2
+# Simulate the Yan BO lifetime
+simulator = two_level_lifetime_generator()
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects'] = 1
+# update the save directory
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.experimental_data_fit(sp1_resolution=5, sp2_resolution=5, Ntn_resolution=6, Ntp_resolution=6)
+
+# %% Simulate the Yan BO lifetime with optimized scan method.
+simulator = two_level_lifetime_generator()
+# define the number of defect to simulate
+simulator.PARAMETERS['n_defects'] = 1
+# update the save directory
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.experimental_data_fit2()
+
+# %% create Yan fitting
+# %% Interpolate the expeirmental data
+simulator = two_level_lifetime_generator()
+# interpolate the data
+simulator.experimental_data_interpolator(plot=True ,polyorder_n=1, wind_l_n=91, polyorder_p=2, wind_l_p=81)
+
+# export the data
+# update the save directory
+simulator.PARAMETERS['n_defects'] = 1
+simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# simualte the data
+simulator.interpolate_data_exporter()
 # %%
+simulator = two_level_lifetime_generator()
 simulator.email_reminder()
