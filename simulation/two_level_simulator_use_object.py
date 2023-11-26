@@ -1,6 +1,6 @@
 # %% imports
 import sys
-sys.path.append(r'C:\Users\sijin wang\Documents\GitHub\Two_level_defect_journal\simulation')
+sys.path.append(r'C:\Users\z5183876\Documents\GitHub\Two_level_defect_journal\simulation')
 from two_level_simulator_object import *
 
 # define the object
