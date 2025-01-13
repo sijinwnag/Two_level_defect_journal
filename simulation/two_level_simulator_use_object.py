@@ -50,13 +50,17 @@ simulator.mixture_simulate()
 # %% Simulate two-level-lifetime only
 simulator = two_level_lifetime_generator()
 # define the number of defect to simulate
-simulator.PARAMETERS['n_defects']= 1
+simulator.PARAMETERS['n_defects']= 800
 # update the save directory
 simulator.SAVEDIR = r"D:\study\thesis_data_storage\journal\defect_classification\basic_model\testing_data"
+# update temperature range
+simulator.TEMPERATURE = [203.15, 263.15, 303.15, 343.15]
+# update the defect density
+simulator.PARAMETERS['dn_range'] = np.logspace(14 ,16.4, 100)
 # update Et range
-simulator.PARAM['Et_min_1'] = -0.55
+simulator.PARAM['Et_min_1'] = 0
 simulator.PARAM['Et_max_1'] = 0.55
-simulator.PARAM['Et_min_2'] = -0.55
+simulator.PARAM['Et_min_2'] = 0
 simulator.PARAM['Et_max_2'] = 0.55
 # simulate the data
 simulator.two_level_simulate()

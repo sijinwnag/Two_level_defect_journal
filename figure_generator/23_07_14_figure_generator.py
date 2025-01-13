@@ -733,3 +733,5 @@ for task in [Et1list, Sn1list, Sp1list, Et2list, Sn2list, Sp2list]: # k1list, k2
     counter = counter + 1
 
 plt.show()
+
+# %%

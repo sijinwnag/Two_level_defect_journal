@@ -1,7 +1,7 @@
 "Experimental main functions"
 import sys
 # import the function file from another folder:
-sys.path.append(r'C:\Users\sijin wang\Documents\GitHub\yoann_code_new\DPML')
+sys.path.append(r'C:\Users\z5183876\Documents\GitHub\Two_level_defect_journal\simulation\DPML')
 from Si import Cell,Defect,LTS
 from main import ML
 from utils.matplotlibstyle import *

@@ -44,8 +44,8 @@ y_f1_2 = [0.89, 0.9, 0.89, 0.83, 0.81, 0.81, 0.81, 0.81, 0.8, 0.77, 0.65]
 y_err_2 = [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
 # the visualization data
 # Load the data from Yan's code export
-Et1_one_path = r'C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et1_dominate\Et1_alone.csv'
-Et1_two_path = r'C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et1_dominate\two_level.csv'
+Et1_one_path = r"D:\study\research\thesiswork\thesis3\Et1_Et2_cover\Et1_dominate\Et1_alone.csv"
+Et1_two_path = r"D:\study\research\thesiswork\thesis3\Et1_Et2_cover\Et1_dominate\two_level.csv"
 Et2_one_path = r'C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et2_dominate\Et2_one_level_defect.csv'
 Et2_two_path = r'C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et2_dominate\two_level_defect.csv'
 Et2_0_1_path = r'C:\Users\sijin wang\Desktop\research\thesiswork\thesis3\Et1_Et2_cover\Et2_not_sensitive\Et2_0_1.csv'
